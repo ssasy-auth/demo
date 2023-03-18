@@ -1,0 +1,17 @@
+:root {
+  --font-family: monospace, sans-serif;
+  --color-neon: #49f536;
+}
+
+html {
+  font-family: var(--font-family);
+}
+
+a {
+  color: var(--color-neon);
+}
+
+.underline {
+  border-bottom: 1px solid;
+}
+
