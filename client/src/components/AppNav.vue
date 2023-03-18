@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
 import { useDisplay } from 'vuetify'
 import { useSidebarStore } from '@/stores'
+import { AuthLogic } from '@/logic';
 import BaseBtn from './base/BaseBtn.vue';
 import AppLogo from './AppLogo.vue';
 
-const router = useRouter();
 const drawer = useSidebarStore();
 const { name } = useDisplay();
 
+const extensionInstalled = ref(false);
+
 const options = [
   { 
-    label: 'about',
+    label: 'install ext',
     action: () => {
-      router.push('/about')
+      console.log('install ext');
     } 
   },
   { 
@@ -35,6 +36,26 @@ const isSmallScreen = computed(() => {
   return name.value === 'xs' || name.value === 'sm';
 });
 
+const getOptions = computed(() => {
+  return options.filter(option => {
+    if(extensionInstalled.value){
+      return option.label !== 'install ext';
+    } else {
+      return option.label === 'install ext';
+    }
+  })
+})
+
+onMounted(() => {
+  AuthLogic.extensionInstalled()
+    .then((installed) => {
+      extensionInstalled.value = installed;
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+})
+
 </script>
 
 <template>
@@ -53,7 +74,7 @@ const isSmallScreen = computed(() => {
 
     <div v-if="!isSmallScreen">
       <base-btn
-        v-for="option in options"
+        v-for="option in getOptions"
         :key="option.label"
         class="mx-1"
         @click="option.action">
