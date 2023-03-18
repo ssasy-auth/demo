@@ -1,0 +1,19 @@
+{
+  "name": "ssasy-index-server",
+  "version": "0.0.1",
+  "description": "a index of ssasy users",
+  "main": "dist/index.src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/this-oliver/ssasy-index.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/this-oliver/ssasy-index/issues"
+  },
+  "homepage": "https://github.com/this-oliver/ssasy-index#readme"
+}

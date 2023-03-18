@@ -1,0 +1,6 @@
+# editor files
+.vscode
+.DS_Store
+
+# auto-generated files
+**/node_modules

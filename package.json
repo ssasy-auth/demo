@@ -1,0 +1,22 @@
+{
+  "name": "ssasy-index",
+  "version": "0.0.1",
+  "description": "a index of registered ssasy accounts",
+  "main": "index.js",
+  "scripts": {
+    "bump": "npx fist-bump"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/this-oliver/ssasy-index.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/this-oliver/ssasy-index/issues"
+  },
+  "homepage": "https://github.com/this-oliver/ssasy-index#readme",
+  "devDependencies": {
+    "fist-bump": "^1.1.0"
+  }
+}
