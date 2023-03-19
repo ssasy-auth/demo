@@ -12,7 +12,7 @@
     "bump": "npx fistbump"
   },
   "dependencies": {
-    "@this-oliver/ssasy": "1.6.0",
+    "@this-oliver/ssasy": "1.6.4",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",

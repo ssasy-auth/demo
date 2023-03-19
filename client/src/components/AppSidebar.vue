@@ -1,36 +1,31 @@
 <script setup lang="ts">
-import { useSidebarStore } from '@/stores'
+import { onMounted } from 'vue';
+import { ExtensionMessenger } from '@/logic';
+import { useNavStore, useSidebarStore } from '@/stores'
 
-const drawer = useSidebarStore();
+const navStore = useNavStore();
+const sidebarStore = useSidebarStore();
 
-const options = [
-  {
-    label: 'about',
-    to: '/about'
-  },
-  { 
-    label: 'login',
-    action: () => {
-      console.log('login');
-    } 
-  },
-  { 
-    label: 'register',
-    action: () => {
-      console.log('register')
-    }
+onMounted(async () => {
+  // only check for extension if the store says it hasn't been checked yet
+  if(!navStore.extensionInstalled){
+    const installed = await ExtensionMessenger.extensionInstalled();
+    navStore.setExtensionInstalled(installed);
   }
-]
+})
 
 </script>
 
 <template>
-  <v-navigation-drawer v-model="drawer.visible">
+  <v-navigation-drawer
+    v-model="sidebarStore.visible"
+    :scrim="false">
     <v-list>
       <v-list-item
-        v-for="option in options"
+        v-for="option in navStore.getOptions"
         :key="option.label"
         :to="option.to"
+        :color="option.color"
         @click="option.action">
         <v-list-item-title>{{ option.label }}</v-list-item-title>
       </v-list-item>

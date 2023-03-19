@@ -13,8 +13,10 @@ export interface ActionItem {
   disabled?: boolean;
   outlined?: boolean;
   hint?: string;
-  action: () => void;
+  to?: string;
+  action?: () => void;
 }
+
 const props = defineProps({
   title: {
     type: String,
@@ -64,7 +66,9 @@ const getActions: ComputedRef<ActionItem[]> = computed(() => {
     return {
       ...item,
       action: () => {
-        item.action();
+        if(item.action){
+          item.action();
+        }
       }
     };
   });
@@ -77,7 +81,8 @@ const getActions: ComputedRef<ActionItem[]> = computed(() => {
     :subtitle="props.subtitle"
     :flat="props.flat"
     :color="props.color"
-    :variant="getCardStyle" >
+    :variant="getCardStyle"
+    class="pa-2">
     <slot />
 
     <template

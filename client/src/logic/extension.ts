@@ -1,5 +1,4 @@
-import { EncoderModule } from '@this-oliver/ssasy';
-import type { RawKey, Ciphertext } from '@this-oliver/ssasy';
+import type { RawKey } from '@this-oliver/ssasy';
 
 export enum MessageType {
   REQUEST_PUBLIC_KEY = 'request-public-key',
@@ -137,7 +136,7 @@ async function getUserPublicKey(mode: RequestMode): Promise<RawKey | null> {
 /**
  * Returns the solution to the challenge from the Ssasy extension.
  */
-async function getSolution(mode: RequestMode, challengeCiphertext: Ciphertext): Promise<Ciphertext | null> {
+async function getSolution(mode: RequestMode, encryptedChallenge: string): Promise<string | null> {
 
   return new Promise((resolve, reject) => {
     // listen for response from extension
@@ -153,11 +152,7 @@ async function getSolution(mode: RequestMode, challengeCiphertext: Ciphertext): 
         };
 
         if(response.solution){
-          EncoderModule
-            .decodeCiphertext(response.solution)
-            .then(decodedCiphertext => {
-              resolve(decodedCiphertext);
-            });
+          resolve(response.solution);
 
         } else {
           resolve(null);
@@ -173,20 +168,16 @@ async function getSolution(mode: RequestMode, challengeCiphertext: Ciphertext): 
         reject(errorResponse.error);
       }
     });
-
+    
     // send message to extension
-    EncoderModule
-      .encodeCiphertext(challengeCiphertext)
-      .then(encodedciphertext => {
-        const request: ChallengeRequest = { 
-          origin: '', 
-          mode: mode,
-          type: MessageType.REQUEST_SOLUTION, 
-          challenge: encodedciphertext 
-        };
+    const request: ChallengeRequest = { 
+      origin: '', 
+      mode: mode,
+      type: MessageType.REQUEST_SOLUTION, 
+      challenge: encryptedChallenge
+    };
 
-        window.postMessage(request, '*');
-      });
+    window.postMessage(request, '*');
   });
   
 }

@@ -41,6 +41,10 @@ const props = defineProps({
     type: Boolean,
     default: undefined
   },
+  plain: {
+    type: Boolean,
+    default: undefined
+  },
   icon: {
     type: String,
     default: undefined
@@ -71,6 +75,8 @@ const getButtonStyle: ComputedRef<ButtonStyle | undefined> = computed(() => {
     return 'text';
   } else if (props.tonal === true) {
     return 'tonal';
+  } else if (props.plain === true) {
+    return 'plain';
   } else {
     return undefined
   }

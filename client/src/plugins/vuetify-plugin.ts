@@ -7,11 +7,12 @@ import * as directives from 'vuetify/directives'
 const AppTheme: ThemeDefinition = {
   dark: false,
   colors: {
-    primary: '#2A85F5',
-    secondary: '#5BF5A2',
-    warning: '#F5BA4E',
-    error: '#F58842',
-    background: '#F54736'
+    background: '#FFFFFF',
+    surface: '#FFFFFF',
+    primary: '#F54736',
+    secondary: '#2A85F5',
+    warning: '#5BF5A2',
+    error: '#F58842'
   }
 }
 

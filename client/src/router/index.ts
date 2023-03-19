@@ -10,9 +10,19 @@ const router = createRouter({
       component: LandingPage
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/pages/AboutPage.vue')
+      path: '/users',
+      name: 'users',
+      component: () => import('@/pages/UsersPage.vue')
+    },
+    {
+      path: '/auth/register',
+      name: 'register',
+      component: () => import('@/pages/auth/RegistrationPage.vue')
+    },
+    {
+      path: '/auth/login',
+      name: 'login',
+      component: () => import('@/pages/auth/LoginPage.vue')
     },
     {
       path: '/:pathMatch(.*)*',
