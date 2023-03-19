@@ -32,26 +32,24 @@ const options = [
       console.log('register')
 
       // get public key from extension
-      const publicKey: RawKey | null = await ExtensionMessenger.getUserPublicKey();
+      const publicKey: RawKey | null = await ExtensionMessenger.getUserPublicKey('registration');
 
-      if(publicKey){
+      if(!publicKey){
+        return alert('did not receive a public key :(')
+      }
+
         // get challenge from server
-        const challengeCiphertext = await authStore.getChallenge(publicKey);
+      const challengeCiphertext = await authStore.getChallenge(publicKey, { inRegistration: true });
 
         // get solution for challenge from extension
-        const solution = await ExtensionMessenger.getSolution(challengeCiphertext);
+      const solution = await ExtensionMessenger.getSolution('registration', challengeCiphertext);
 
         if(solution){
           // send solution to server for verification
-          const verified = await authStore.verifyChallenge(solution);
+        const verified = await authStore.verifyChallenge(solution, { inRegistration: true });
           alert(verified ? 'verified!' : 'not verified!');
         } else {
           alert('did not receive a solution :(')
-        }
-      }
-      
-      else {
-        alert('did not receive a public key :(')
       }
     }
   }

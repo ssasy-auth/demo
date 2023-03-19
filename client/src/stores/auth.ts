@@ -9,12 +9,16 @@ import {
   type Ciphertext
 } from '@this-oliver/ssasy'
 
+interface AuthConfig {
+  inRegistration: boolean;
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    rawPrivateKey: undefined as RawKey | undefined
+    rawPrivateKey: key as RawKey | undefined
   }),
   actions: {
-    async getChallenge(rawPublicKey: RawKey): Promise<Ciphertext> {
+    async getChallenge(rawPublicKey: RawKey, config?: AuthConfig): Promise<Ciphertext> {
       if(!KeyChecker.isRawKey(rawPublicKey)){
         throw new Error('Invalid public key');
       }
@@ -23,32 +27,28 @@ export const useAuthStore = defineStore('auth', {
         throw new Error('Private key not set');
       }
 
+      // use this to determine if the challenge is for registration or login
+      const { inRegistration } = config || { inRegistration: false };
+
       const claimantPublicKey: PublicKey = await KeyModule.importKey(rawPublicKey) as PublicKey;
-      
       const privateKey: PrivateKey = await KeyModule.importKey(this.rawPrivateKey) as PrivateKey;
       const wallet = new Wallet(privateKey);
 
       // generate challenge
       return await wallet.generateChallenge(claimantPublicKey);
     },
-    async verifyChallenge(solution: Ciphertext): Promise<boolean> {
+    async verifyChallenge(solution: Ciphertext, config?: AuthConfig): Promise<boolean> {
       if(this.rawPrivateKey === undefined){
         throw new Error('Private key not set');
       }
+
+      // use this to determine if the challenge is for registration or login
+      const { inRegistration } = config || { inRegistration: false };
 
       const privateKey: PrivateKey = await KeyModule.importKey(this.rawPrivateKey) as PrivateKey;
       const wallet = new Wallet(privateKey);
       const result = await wallet.verifyChallenge(solution);
       return result !== null;
-    },
-    login(){
-      // get public key and send it to server
-
-      // send challenge to user
-
-      // get solution and send it to server
-
-      // set token for user
     }
   }
 })

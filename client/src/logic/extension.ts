@@ -2,93 +2,86 @@ import { EncoderModule } from '@this-oliver/ssasy';
 import type { RawKey, Ciphertext } from '@this-oliver/ssasy';
 
 export enum MessageType {
-  RequestPublicKey = 'request-public-key',
-  RequestSolution = 'request-solution',
-  RequestPing = 'request-ping',
-  ResponsePublicKey = 'response-public-key',
-  ResponseSolution = 'response-solution',
-  ResponsePing = 'response-ping',
-  ResponseError = 'response-error'
+  REQUEST_PUBLIC_KEY = 'request-public-key',
+  REQUEST_SOLUTION = 'request-solution',
+  REQUEST_PING = 'request-ping',
+  RESPONSE_PUBLIC_KEY = 'response-public-key',
+  RESPONSE_SOLUTION = 'response-solution',
+  RESPONSE_PING = 'response-ping',
+  RESPONSE_ERROR = 'response-error',
 }
 
-/**
- * the foundation of all messages (both requests and responses)
- */
-interface BaseMessage {
-  /**
-   * the description of the message
-   */
+export type RequestMode = 'registration' | 'login';
+
+export interface BaseMessage {
+  type: MessageType;
   description?: string;
 }
 
-export interface GenericMessage extends BaseMessage {
-  /**
-   * the type of the message (can be any of the MessageType enum values)
-   */
-  type: typeof MessageType[keyof typeof MessageType];
-}
-
-export interface GenericRequest extends GenericMessage {
-  /**
-	 * the origin of the message. This should be the orgin of the website
-	 * that started the message.
-	 */
+export interface BaseRequest extends BaseMessage {
   origin: string;
 }
 
-/**
- * request messages for the user's public key
- */
-export interface KeyRequest extends GenericRequest {
-  type: MessageType.RequestPublicKey;
+export interface PublicKeyRequest extends BaseRequest {
+  type: MessageType.REQUEST_PUBLIC_KEY;
+  mode: RequestMode;
 }
 
-/**
- * response messages for the user's public key request
- */
-export interface KeyResponse extends BaseMessage {
-  type: MessageType.ResponsePublicKey;
+export interface PublicKeyResponse extends BaseMessage {
+  type: MessageType.RESPONSE_PUBLIC_KEY;
+  mode: RequestMode;
   key: string | null;
 }
 
-/**
- * request messages for the user's solution to a challenge/response
- */
-export interface ChallengeRequest extends GenericRequest {
-  type: MessageType.RequestSolution;
+export interface ChallengeRequest extends BaseRequest {
+  type: MessageType.REQUEST_SOLUTION;
+  mode: RequestMode;
   challenge: string;
 }
 
-/**
- * response messages to a challenge/response
- */
 export interface ChallengeResponse extends BaseMessage {
-  type: MessageType.ResponseSolution;
+  type: MessageType.RESPONSE_SOLUTION;
+  mode: RequestMode;
   solution: string | null;
+}
+
+export interface ErrorResponse extends BaseMessage {
+  type: MessageType.RESPONSE_ERROR;
+  mode?: RequestMode;
+  error: string;
 }
 
 /**
  * Returns true if the browser has the Ssasy extension installed.
  */
 async function extensionInstalled(): Promise<boolean> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     try {
       // listen for response from extension
       window.addEventListener('message', (event) => {
-        const message: GenericMessage = { 
+        const message: BaseMessage = { 
           type: event.data.type, 
           description: event.data.description
         };
 
-        if (message.type === MessageType.ResponsePing) {
+        if (message.type === MessageType.RESPONSE_PING) {
           console.log('[ssasy-index] Received ping from extension');
           // extension is installed
           resolve(true);
         }
+
+        if(message.type === MessageType.RESPONSE_ERROR){
+          const errorResponse: ErrorResponse = {
+            type: event.data.type,
+            error: event.data.error
+          };
+
+          reject(errorResponse.error);
+        }
       });
     
       // send message to extension
-      const request: GenericMessage = { type: MessageType.RequestPing };
+      const request: BaseRequest = { origin: '*', type: MessageType.RESPONSE_PING };
       window.postMessage(request, '*');
       
     } catch (error) {
@@ -101,20 +94,21 @@ async function extensionInstalled(): Promise<boolean> {
 /**
  * Returns the public key of the user from the Ssasy extension.
  */
-async function getUserPublicKey(): Promise<RawKey | null> {
-  return new Promise((resolve) => {
+async function getUserPublicKey(mode: RequestMode): Promise<RawKey | null> {
+  return new Promise((resolve, reject) => {
     try {
       // listen for response from extension
       window.addEventListener('message', (event) => {
-        const message: GenericMessage = { 
+        const message: BaseMessage = { 
           type: event.data.type
         };
   
-        if (message.type === MessageType.ResponsePublicKey) {
+        if (message.type === MessageType.RESPONSE_PUBLIC_KEY) {
           console.log('[ssasy-index] Received public key from extension');
 
-          const keyResponse: KeyResponse = {
+          const keyResponse: PublicKeyResponse = {
             type: event.data.type,
+            mode: event.data.mode,
             key: event.data.key
           };
 
@@ -122,10 +116,19 @@ async function getUserPublicKey(): Promise<RawKey | null> {
             ? resolve(JSON.parse(keyResponse.key) as RawKey)
             : resolve(null);
         }
+
+        if(message.type === MessageType.RESPONSE_ERROR){
+          const errorResponse: ErrorResponse = {
+            type: event.data.type,
+            error: event.data.error
+          };
+
+          reject(errorResponse.error);
+        }
       });
   
       // send message to extension
-      const request: GenericMessage = { type: MessageType.RequestPublicKey };
+      const request: PublicKeyRequest = { origin: '*', mode: mode, type: MessageType.REQUEST_PUBLIC_KEY };
       window.postMessage(request, '*');
       
     } catch (error) {
@@ -138,18 +141,19 @@ async function getUserPublicKey(): Promise<RawKey | null> {
 /**
  * Returns the solution to the challenge from the Ssasy extension.
  */
-async function getSolution(challengeCiphertext: Ciphertext): Promise<Ciphertext | null> {
+async function getSolution(mode: RequestMode, challengeCiphertext: Ciphertext): Promise<Ciphertext | null> {
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     // listen for response from extension
     window.addEventListener('message', (event) => {
-      const message: GenericMessage = { type: event.data.type };
+      const message: BaseMessage = { type: event.data.type };
 
-      if(message.type === MessageType.ResponseSolution){
+      if(message.type === MessageType.RESPONSE_SOLUTION){
         console.log('[ssasy-index] Received solution from extension');
 
         const response: ChallengeResponse = {
           type: event.data.type,
+          mode: event.data.mode,
           solution: event.data.solution
         };
 
@@ -164,6 +168,15 @@ async function getSolution(challengeCiphertext: Ciphertext): Promise<Ciphertext 
           resolve(null);
         }
       }
+
+      if(message.type === MessageType.RESPONSE_ERROR){
+        const errorResponse: ErrorResponse = {
+          type: event.data.type,
+          error: event.data.error
+        };
+
+        reject(errorResponse.error);
+      }
     });
 
     // send message to extension
@@ -172,7 +185,8 @@ async function getSolution(challengeCiphertext: Ciphertext): Promise<Ciphertext 
       .then(encodedciphertext => {
         const request: ChallengeRequest = { 
           origin: '', 
-          type: MessageType.RequestSolution, 
+          mode: mode,
+          type: MessageType.REQUEST_SOLUTION, 
           challenge: encodedciphertext 
         };
 
