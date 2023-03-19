@@ -29,7 +29,6 @@ export interface PublicKeyRequest extends BaseRequest {
 
 export interface PublicKeyResponse extends BaseMessage {
   type: MessageType.RESPONSE_PUBLIC_KEY;
-  mode: RequestMode;
   key: string | null;
 }
 
@@ -41,13 +40,11 @@ export interface ChallengeRequest extends BaseRequest {
 
 export interface ChallengeResponse extends BaseMessage {
   type: MessageType.RESPONSE_SOLUTION;
-  mode: RequestMode;
   solution: string | null;
 }
 
 export interface ErrorResponse extends BaseMessage {
   type: MessageType.RESPONSE_ERROR;
-  mode?: RequestMode;
   error: string;
 }
 
@@ -108,7 +105,6 @@ async function getUserPublicKey(mode: RequestMode): Promise<RawKey | null> {
 
           const keyResponse: PublicKeyResponse = {
             type: event.data.type,
-            mode: event.data.mode,
             key: event.data.key
           };
 
@@ -153,7 +149,6 @@ async function getSolution(mode: RequestMode, challengeCiphertext: Ciphertext): 
 
         const response: ChallengeResponse = {
           type: event.data.type,
-          mode: event.data.mode,
           solution: event.data.solution
         };
 

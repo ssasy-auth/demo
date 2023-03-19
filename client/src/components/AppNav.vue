@@ -22,8 +22,29 @@ const options = [
   },
   { 
     label: 'login',
-    action: () => {
+    action: async () => {
       console.log('login');
+
+      // get public key from extension
+      const publicKey: RawKey | null = await ExtensionMessenger.getUserPublicKey('login');
+
+      if(!publicKey){
+        return alert('did not receive a public key :(')
+      }
+
+      // send public key to server and get challenge
+      const challengeCiphertext = await authStore.getChallenge(publicKey);
+
+      // get solution for challenge from extension
+      const solution = await ExtensionMessenger.getSolution('login', challengeCiphertext);
+
+      if(!solution){
+        return alert('did not receive a solution :(')
+      }
+
+      // send solution to server for verification
+      const verified = await authStore.verifyChallenge(solution);
+      alert(verified ? 'verified!' : 'not verified!');
     } 
   },
   { 
@@ -38,19 +59,19 @@ const options = [
         return alert('did not receive a public key :(')
       }
 
-        // get challenge from server
+      // get challenge from server
       const challengeCiphertext = await authStore.getChallenge(publicKey, { inRegistration: true });
 
-        // get solution for challenge from extension
+      // get solution for challenge from extension
       const solution = await ExtensionMessenger.getSolution('registration', challengeCiphertext);
 
-        if(solution){
-          // send solution to server for verification
-        const verified = await authStore.verifyChallenge(solution, { inRegistration: true });
-          alert(verified ? 'verified!' : 'not verified!');
-        } else {
-          alert('did not receive a solution :(')
+      if(!solution){
+        return alert('did not receive a solution :(')
       }
+
+      // send solution to server for verification
+      const verified = await authStore.verifyChallenge(solution, { inRegistration: true });
+      alert(verified ? 'verified!' : 'not verified!');
     }
   }
 ]
