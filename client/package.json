@@ -1,9 +1,6 @@
 {
-  "name": "template-vue3",
-  "description": "A template for Vue 3 projects with Vite, Vuetify, Vue Router, and Pinia.",
-  "repository": "this-oliver/template-vue3",
-  "version": "1.2.1",
-  "private": true,
+  "name": "ssasy-demo-client",
+  "description": "a client demo for the ssasy extension",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
