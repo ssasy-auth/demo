@@ -2,7 +2,7 @@
   "name": "template-vue3",
   "description": "A template for Vue 3 projects with Vite, Vuetify, Vue Router, and Pinia.",
   "repository": "this-oliver/template-vue3",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -15,7 +15,7 @@
     "bump": "npx fistbump"
   },
   "dependencies": {
-    "@this-oliver/ssasy": "1.4.0",
+    "@this-oliver/ssasy": "1.6.0",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
