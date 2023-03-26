@@ -49,9 +49,7 @@ async function register(){
           :is-valid="isValidUsername" />
       </v-col>
       <v-divider class="border-opacity-0" />
-      <v-col
-        cols="11"
-        md="auto">
+      <v-col cols="auto">
         <base-btn
           large
           color="secondary"
