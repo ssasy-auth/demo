@@ -10,6 +10,11 @@ const router = createRouter({
       component: LandingPage
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/pages/ProfilePage.vue')
+    },
+    {
       path: '/users',
       name: 'users',
       component: () => import('@/pages/UsersPage.vue')

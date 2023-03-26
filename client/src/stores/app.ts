@@ -1,4 +1,3 @@
-import { toRaw } from 'vue';
 import { defineStore } from 'pinia'
 import { useUserStore } from '@/stores';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
@@ -40,9 +39,14 @@ function getAuthOptions(extInstalled: boolean): ActionItem[] {
 
 function getUserOptions(user: any): ActionItem[] {
   return [
-    { label: user.username, action: () => { console.log({ publicKey: toRaw(user.publicKey) }) } },
+    { 
+      label: user.username, 
+      color: 'secondary',
+      to: '/profile'
+    },
     { 
       label: 'logout', 
+      color: 'secondary',
       action: () => { 
         const userStore = useUserStore();
         userStore.resetStore()
