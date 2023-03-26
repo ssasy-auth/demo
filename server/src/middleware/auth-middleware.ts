@@ -1,6 +1,6 @@
 import { getServerWallet, createToken, verifyToken, decodeToken } from "../auth";
 import { createUser, getUserByPublicKey, getUserById } from "../data";
-import { EncoderModule, KeyModule, KeyChecker } from "@this-oliver/ssasy";
+import { EncoderModule, KeyModule, KeyChecker, StandardCiphertext } from "@this-oliver/ssasy";
 import type { IUser, UserDocument } from "../data";
 import type { Request, Response } from "express";
 import type { RawKey, PublicKey } from "@this-oliver/ssasy";
@@ -29,7 +29,7 @@ const helper = {
    */
   extractAuthDetails(
     req: Request, 
-    config?: { requireUsername?: boolean, requireToken?: boolean }
+    config?: { requireSignature?: boolean, requireUsername?: boolean, requireToken?: boolean }
   ): AuthDetails {  
     const token = req.headers.authorization?.split(" ")[1];
     const { publicKey, challenge, username } = req.body as { publicKey: RawKey, challenge: string, username: string };
@@ -60,25 +60,27 @@ const helper = {
   /**
    * Verifies a challenge and returns the user's public key
    */
-  async inspectChallenge(challenge: string, publicKey: RawKey): Promise<void> {
+  async inspectChallenge(challenge: string, publicKey: RawKey): Promise<{ publicKey: PublicKey, signature?: StandardCiphertext }> {
     // decode the challenge
-    const decodedChallenge = await EncoderModule.decodeCiphertext(challenge);
+    const decodedChallengeCiphertext = await EncoderModule.decodeCiphertext(challenge);
     // convert raw key to processed key
     const processedPublicKey = await KeyModule.importKey(publicKey) as PublicKey;
     
     // check if the challenge is valid
     const wallet = await getServerWallet();
-    const verifiedPublicKey = await wallet.verifyChallenge(decodedChallenge);
+    const result = await wallet.verifyChallenge(decodedChallengeCiphertext);
     
-    if (!verifiedPublicKey) {
+    if (!result) {
       throw new Error("Failed to verify challenge");
     }
   
     // check if the challenge's public key matches the provided public key
-    const isSameKey: boolean = await KeyChecker.isSameKey(processedPublicKey, verifiedPublicKey);
+    const isSameKey: boolean = await KeyChecker.isSameKey(processedPublicKey, result.publicKey);
     if(!isSameKey) {
       throw new Error("Public key does not match challenge");
     }
+
+    return result;
   },
   /**
    * Generates a token for the user
@@ -123,7 +125,16 @@ async function postChallenge(req: Request, res: Response) {
   try {
     const wallet = await getServerWallet();
     const processedPublicKey = await KeyModule.importKey(publicKey) as PublicKey;
-    const encryptedChallenge = await wallet.generateChallenge(processedPublicKey);
+    let encryptedChallenge = await wallet.generateChallenge(processedPublicKey);
+
+    // add user signature to the challenge
+    const user: IUser | null = await getUserByPublicKey(publicKey.crypto.x as string, publicKey.crypto.y as string);
+
+    encryptedChallenge = {
+      ...encryptedChallenge,
+      signature: user?.credential.signature as StandardCiphertext
+    }
+
     const encryptedChallengeString = await EncoderModule.encodeCiphertext(encryptedChallenge);
 
     return res.status(200).json({ ciphertext: encryptedChallengeString });
@@ -152,20 +163,24 @@ async function postRegister(req: Request, res: Response){
     username
   } = authDetails;
 
+  let signature: StandardCiphertext;
+
   try {
-    await helper.inspectChallenge(challenge, publicKey);
+    const result = await helper.inspectChallenge(challenge, publicKey);
+
+    if(!result.signature) {
+      throw new Error("User's signature is missing from challenge");
+    }
+
+    signature = result.signature;
+
   } catch (error) {
     const errorMessage = (error as Error).message || "Failed to verify challenge"
     return res.status(500).json({ message: errorMessage });
   }
-
-  const user: IUser = {
-    username: username as string,
-    publicKey: publicKey
-  };
   
   try {
-    const createdUser = await createUser(user.publicKey, user.username);
+    const createdUser = await createUser(publicKey, signature, username as string);
     return res.status(201).json(createdUser);
   } catch (error) {
     const errorMessage = (error as Error).message || "Failed to create user";

@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/logic';
 import { fetchApi } from '@/util';
-import type { RawKey } from '@this-oliver/ssasy'
+import type { RawKey, StandardCiphertext } from '@this-oliver/ssasy'
 
 const KEY_STORAGE_USER = 'ssasy-demo-user';
 
 export interface IUser {
   id?: string;
-  publicKey: RawKey;
   username: string;
+  credential: { publicKey: RawKey, signature: StandardCiphertext };
 }
 
 export const useUserStore = defineStore('user', {

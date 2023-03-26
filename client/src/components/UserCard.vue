@@ -14,7 +14,7 @@ const props = defineProps({
 
 const getJsonPublicKey = computed(() => {
   // return formatted JSON string
-  const string = JSON.stringify(props.user.publicKey, null, 2)
+  const string = JSON.stringify(props.user.credential.publicKey, null, 2)
 
   // remove empty lines at the beginning of the string
   return string.replace(/^\s*\n/gm, '')
@@ -30,8 +30,8 @@ const getJsonPublicKey = computed(() => {
       <v-list-item-subtitle> username </v-list-item-subtitle>
     </div>
 
-    <div class="user-public-key mt-2">
-      <pre><code>{{ getJsonPublicKey }}</code></pre>
+    <div class="mt-2">
+      <pre class="user-public-key"><code>{{ getJsonPublicKey }}</code></pre>
       <v-list-item-subtitle> public key </v-list-item-subtitle>
     </div>
   </base-card>
