@@ -8,21 +8,19 @@ const baseOptions: ActionItem[] = [
 
 const authOptions: ActionItem[] = [
   { 
-    label: 'install ext',
-    color: 'secondary',
-    action: () => {
-      console.log('install ext');
-    } 
+    label: 'download extension',
+    color: 'grey',
+    to: '/download'
   },
   { 
     label: 'login',
-    color: 'secondary',
+    color: 'grey',
     to: '/auth/login'
     
   },
   { 
     label: 'register',
-    color: 'secondary',
+    color: 'grey',
     to: '/auth/register'
   }
 ]
@@ -30,9 +28,9 @@ const authOptions: ActionItem[] = [
 function getAuthOptions(extInstalled: boolean): ActionItem[] {
   return authOptions.filter(option => {
     if(extInstalled){
-      return option.label !== 'install ext';
+      return option.label !== 'download extension';
     } else {
-      return option.label === 'install ext';
+      return option.label === 'download extension';
     }
   })
 }
@@ -45,7 +43,7 @@ function getUserOptions(user: any): ActionItem[] {
       to: '/profile'
     },
     { 
-      label: 'logout', 
+      label: 'logout',
       color: 'secondary',
       action: () => { 
         const userStore = useUserStore();

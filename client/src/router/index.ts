@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/pages/UsersPage.vue')
     },
     {
+      path: '/download',
+      name: 'download',
+      component: () => import('@/pages/DownloadPage.vue')
+    },
+    {
       path: '/auth/register',
       name: 'register',
       component: () => import('@/pages/auth/RegistrationPage.vue')
