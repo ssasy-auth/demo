@@ -24,11 +24,10 @@ async function register(){
     const user = await registerUser(username.value as string);
     
     if(user){
-      alert('registration successful!');
+      // redirect to landing page
+      router.push('/auth/login');
     }
 
-    // redirect to landing page
-    router.push('/auth/login');
   } catch (err) {
     const message: string = (err as Error).message || 'Failed to register user';
     error.value = message;

@@ -15,11 +15,9 @@ async function login(){
     const user = await loginUser();
 
     if(user){
-      alert('login successful!');
+      // redirect to landing page
+      router.push('/');
     }
-
-    // redirect to landing page
-    router.push('/');
 
   } catch (err) {
     const errorMessage = (err as Error).message || 'Failed to login';
@@ -46,7 +44,7 @@ async function login(){
       <v-divider class="border-opacity-0 mt-2" />
       
       <v-col
-        cols="11"
+        cols="auto"
         md="auto">
         <base-btn
           large
@@ -60,7 +58,9 @@ async function login(){
         v-if="error"
         cols="11"
         md="auto">
-        <base-card class="pa-2">
+        <base-card
+          class="pa-2"
+          color="error">
           <p class="text-center">
             {{ error }}
           </p>

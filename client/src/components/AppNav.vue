@@ -31,7 +31,9 @@ onMounted(async () => {
       @click="sidebarStore.toggle" />
 
       
-    <base-btn to="/">
+    <base-btn
+      text
+      to="/">
       <app-logo />
     </base-btn>
 
@@ -45,7 +47,6 @@ onMounted(async () => {
         :key="option.label"
         :to="option.to"
         :color="option.color"
-        :tonal="true"
         class="mx-1"
         @click="option.action">
         {{ option.label }}
