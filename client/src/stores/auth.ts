@@ -116,7 +116,7 @@ export const useAuthStore = defineStore('auth', {
 
       // reset user
       const userStore = useUserStore();
-      userStore.resetStore();
+      userStore.removeUser();
       
       this.$reset();
     }

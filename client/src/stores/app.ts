@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router';
+import { loginUser } from '@/logic';
 import { useUserStore } from '@/stores';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
@@ -15,7 +17,22 @@ const authOptions: ActionItem[] = [
   { 
     label: 'login',
     color: 'grey',
-    to: '/auth/login'
+    async action() {
+      try {
+        const user = await loginUser();
+
+        if(user){
+          // redirect to profile page
+          const router = useRouter();
+          router.push('/profile');
+        }
+
+      } catch (err) {
+        const errorMessage = (err as Error).message || 'Failed to login';
+        
+        throw new Error(errorMessage);
+      }
+    }
     
   },
   { 
@@ -47,7 +64,7 @@ function getUserOptions(user: any): ActionItem[] {
       color: 'secondary',
       action: () => { 
         const userStore = useUserStore();
-        userStore.resetStore()
+        userStore.removeUser();
       } 
     }
   ]

@@ -21,6 +21,10 @@ export const useUserStore = defineStore('user', {
       this.user = user;
       storage.saveItem(KEY_STORAGE_USER, user);
     },
+    removeUser(){
+      this.user = null;
+      storage.removeItem(KEY_STORAGE_USER);
+    },
     async fetchUsers(): Promise<IUser[]> {
       const response = await fetchApi('/users', {
         method: 'GET',

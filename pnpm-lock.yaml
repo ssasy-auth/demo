@@ -1,10 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
-  fist-bump: ^1.1.0
+  fist-bump: ^1.2.4
 
 devDependencies:
-  fist-bump: 1.1.0
+  fist-bump: 1.2.4
 
 packages:
 
@@ -23,8 +23,8 @@ packages:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: true
 
-  /fist-bump/1.1.0:
-    resolution: {integrity: sha512-ZYAM/Ih0XZgSky1e0G0h7d5L5FzNl0k4dLizJuYqGssiTVBFR+EdWpwYSLMGhrHArjU3Trlz8pH/BOQ369PRqw==}
+  /fist-bump/1.2.4:
+    resolution: {integrity: sha512-kJdP/To5OdyIkeOYBqwYh3DbjffNdb79peH2d9/CsHht9vXsIgEX3GaqcMAMtZQBcubjI1N3taEBXM+Ol1/gwA==}
     hasBin: true
     dependencies:
       shelljs: 0.8.5
