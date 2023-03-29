@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { Bridge } from '@this-oliver/ssasy-ext-bridge';
+import { computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { Bridge } from 'ssasy-ext';
 import { useNavStore, useSidebarStore } from '@/stores'
-
 const navStore = useNavStore();
 const sidebarStore = useSidebarStore();
+
+const options = computed(() => {
+  const router = useRouter(); 
+  
+  return navStore.getOptions(router);
+})
 
 onMounted(async () => {
   // only check for extension if the store says it hasn't been checked yet
@@ -22,7 +28,7 @@ onMounted(async () => {
     :scrim="false">
     <v-list>
       <v-list-item
-        v-for="option in navStore.getOptions"
+        v-for="option in options"
         :key="option.label"
         :to="option.to"
         :color="option.color"

@@ -1,101 +1,101 @@
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router';
 import { loginUser } from '@/logic';
 import { useUserStore } from '@/stores';
+import type { Router } from 'vue-router';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
-const baseOptions: ActionItem[] = [
-  { label: 'users', to: '/users' }
-]
+export const useNavStore = defineStore('nav', () => {
+  
+  const extensionInstalled = ref(false);
 
-const authOptions: ActionItem[] = [
-  { 
-    label: 'download extension',
-    color: 'grey',
-    to: '/download'
-  },
-  { 
-    label: 'login',
-    color: 'grey',
-    async action() {
-      try {
-        const user = await loginUser();
-
-        if(user){
-          // redirect to profile page
-          const router = useRouter();
-          router.push('/profile');
-        }
-
-      } catch (err) {
-        const errorMessage = (err as Error).message || 'Failed to login';
-        
-        throw new Error(errorMessage);
-      }
-    }
-    
-  },
-  { 
-    label: 'register',
-    color: 'grey',
-    to: '/auth/register'
-  }
-]
-
-function getAuthOptions(extInstalled: boolean): ActionItem[] {
-  return authOptions.filter(option => {
-    if(extInstalled){
-      return option.label !== 'download extension';
-    } else {
-      return option.label === 'download extension';
-    }
-  })
-}
-
-function getUserOptions(user: any): ActionItem[] {
-  return [
-    { 
-      label: user.username, 
-      color: 'secondary',
-      to: '/profile'
-    },
-    { 
-      label: 'logout',
-      color: 'secondary',
-      action: () => { 
-        const userStore = useUserStore();
-        userStore.removeUser();
-      } 
-    }
-  ]
-}
-
-export const useNavStore = defineStore('nav', {
-  state: () => ({
-    extensionInstalled: false
-  }),
-  getters: {
-    getOptions: (state) => {
+  const getOptions = computed(() => {
+    return (router: Router): ActionItem[] => {
       // define base options
-      const options: ActionItem[] = [ ...baseOptions ];
+      const options: ActionItem[] = [ { label: 'users', to: '/users' } ];
+
+      // define auth options
+      const authOptions: ActionItem[] = [
+        { 
+          label: 'download extension',
+          color: 'grey',
+          to: '/download'
+        },
+        { 
+          label: 'login',
+          color: 'grey',
+          action: async () => {
+            try {
+              const user = await loginUser();
+
+              if(user){
+                // redirect to profile page
+                router.push('/profile');
+              }
+
+            } catch (err) {
+              const errorMessage = (err as Error).message || 'Failed to login';
+        
+              throw new Error(errorMessage);
+            }
+          }
+    
+        },
+        { 
+          label: 'register',
+          color: 'grey',
+          to: '/auth/register'
+        }
+      ]
+
+      function _getUserOptions(user: any): ActionItem[] {
+        return [
+          { 
+            label: user.username, 
+            color: 'secondary',
+            to: '/profile'
+          },
+          { 
+            label: 'logout',
+            color: 'secondary',
+            action: () => { 
+              const userStore = useUserStore();
+              userStore.removeUser();
+            } 
+          }
+        ]
+      }
+
+      function _getAuthOptions(extInstalled: boolean): ActionItem[] {
+        return authOptions.filter(option => {
+          if(extInstalled){
+            return option.label !== 'download extension';
+          } else {
+            return option.label === 'download extension';
+          }
+        })
+      }
       
       const userStore = useUserStore();
-      
+
       if(userStore.user){
-        const userOptions = getUserOptions(userStore.user);
-        options.push(...userOptions);
+        options.push(..._getUserOptions(userStore.user));
       } else {
-        const authOptions = getAuthOptions(state.extensionInstalled);
-        options.push(...authOptions);
+        options.push(..._getAuthOptions(extensionInstalled.value));
       }
 
       return options;
     }
-  },
-  actions: {
-    setExtensionInstalled(value: boolean){
-      this.extensionInstalled = value;
-    }
+  });
+
+  function setExtensionInstalled(value: boolean){
+    extensionInstalled.value = value;
+  }
+
+  return {
+    extensionInstalled,
+    getOptions,
+    setExtensionInstalled
   }
 })
 
