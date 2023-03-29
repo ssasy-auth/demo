@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useDisplay } from 'vuetify'
-import { ExtensionMessenger } from '@/logic';
+import { Bridge } from '@this-oliver/ssasy-ext-bridge';
 import { useNavStore, useSidebarStore } from '@/stores'
 import BaseBtn from './base/BaseBtn.vue';
 import AppLogo from './AppLogo.vue';
@@ -15,7 +15,7 @@ const isSmallScreen = computed(() => {
 });
 
 onMounted(async () => {
-  const installed = await ExtensionMessenger.extensionInstalled();
+  const installed = await Bridge.isExtensionInstalled();
   navStore.setExtensionInstalled(installed);
 })
 

@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@rushstack/eslint-patch': ^1.2.0
   '@this-oliver/ssasy': 1.8.8
+  '@this-oliver/ssasy-ext-bridge': 0.0.4
   '@types/node': ^18.14.2
   '@vitejs/plugin-vue': ^4.0.0
   '@vue/eslint-config-prettier': ^7.1.0
@@ -23,6 +24,7 @@ specifiers:
 
 dependencies:
   '@this-oliver/ssasy': 1.8.8
+  '@this-oliver/ssasy-ext-bridge': 0.0.4
   pinia: 2.0.33_7h6e7cvei2rsgyre2mq4fyhehq
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
@@ -348,6 +350,12 @@ packages:
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
+
+  /@this-oliver/ssasy-ext-bridge/0.0.4:
+    resolution: {integrity: sha512-kkY73T+1wESuwvQNPLWYjv2zCctfvqEzKTaBtXzCrndSFfD2WEqV1oVo91SBniJwHhxhPmNGj4yOzaFpqdKu0g==, tarball: download/@this-oliver/ssasy-ext-bridge/0.0.4/a5eecef7e0f66d9dc1888b9ec90b8e1c581f21f2}
+    dependencies:
+      '@this-oliver/ssasy': 1.8.8
+    dev: false
 
   /@this-oliver/ssasy/1.8.8:
     resolution: {integrity: sha512-ndMBA/PcAPwH67NVJqz6RsB/BXkKWrL0ba4zOYLjZSufC5v4WnhLXvysgvhRXiKdg7tsJXLg9+Q4cv+pPqWTtw==, tarball: download/@this-oliver/ssasy/1.8.8/20d77c828dee810627552e0fb0f04eca0bf5d320}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { ExtensionMessenger } from '@/logic';
+import { Bridge } from '@this-oliver/ssasy-ext-bridge';
 import { useNavStore, useSidebarStore } from '@/stores'
 
 const navStore = useNavStore();
@@ -9,7 +9,7 @@ const sidebarStore = useSidebarStore();
 onMounted(async () => {
   // only check for extension if the store says it hasn't been checked yet
   if(!navStore.extensionInstalled){
-    const installed = await ExtensionMessenger.extensionInstalled();
+    const installed = await Bridge.isExtensionInstalled();
     navStore.setExtensionInstalled(installed);
   }
 })

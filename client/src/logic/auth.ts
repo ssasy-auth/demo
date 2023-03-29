@@ -1,11 +1,11 @@
-import { ExtensionMessenger } from '@/logic';
 import { useAuthStore } from '@/stores';
+import { Bridge } from '@this-oliver/ssasy-ext-bridge';
 import type { RawKey } from '@this-oliver/ssasy';
 import type { IUser } from '@/stores';
 
 export async function registerUser(username: string): Promise<IUser>{
   // get public key from extension
-  const publicKey: RawKey | null = await ExtensionMessenger.getUserPublicKey('registration');
+  const publicKey: RawKey | null = await Bridge.requestPublicKey('registration');
         
   if(!publicKey){
     throw new Error('did not receive a public key :(');
@@ -16,7 +16,7 @@ export async function registerUser(username: string): Promise<IUser>{
   const encryptedChallenge = await authStore.getChallenge(publicKey);
   
   // get solution for challenge from extension
-  const encryptedSolution = await ExtensionMessenger.getSolution('registration', encryptedChallenge);
+  const encryptedSolution = await Bridge.requestSolution('registration', encryptedChallenge);
   
   if(!encryptedSolution){
     throw new Error('did not receive a solution :(');
@@ -28,7 +28,7 @@ export async function registerUser(username: string): Promise<IUser>{
 
 export async function loginUser(): Promise<IUser>{
   // get public key from extension
-  const publicKey: RawKey | null = await ExtensionMessenger.getUserPublicKey('login');
+  const publicKey: RawKey | null = await Bridge.requestPublicKey('login');
       
   if(!publicKey){
     throw new Error('did not receive a public key :(')
@@ -39,7 +39,7 @@ export async function loginUser(): Promise<IUser>{
   const encryptedChallenge = await authStore.getChallenge(publicKey);
   
   // get solution for challenge from extension
-  const encryptedSolution = await ExtensionMessenger.getSolution('login', encryptedChallenge);
+  const encryptedSolution = await Bridge.requestSolution('login', encryptedChallenge);
   
   if(!encryptedSolution){
     throw new Error('did not receive a solution :(')

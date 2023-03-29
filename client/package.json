@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@this-oliver/ssasy": "1.8.8",
+    "@this-oliver/ssasy-ext-bridge": "0.0.4",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
