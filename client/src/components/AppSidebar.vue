@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Bridge } from 'ssasy-ext';
+import { Bridge } from '@this-oliver/ssasy-ext';
 import { useNavStore, useSidebarStore } from '@/stores'
 const navStore = useNavStore();
 const sidebarStore = useSidebarStore();

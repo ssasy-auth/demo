@@ -2,7 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useDisplay } from 'vuetify'
 import { useRouter } from 'vue-router';
-import { Bridge } from 'ssasy-ext';
+import { Bridge } from '@this-oliver/ssasy-ext';
 import { useNavStore, useSidebarStore } from '@/stores'
 import BaseBtn from './base/BaseBtn.vue';
 import AppLogo from './AppLogo.vue';

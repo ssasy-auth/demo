@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/stores';
-import { Bridge } from '@this-oliver/ssasy-ext-bridge';
+import { Bridge } from '@this-oliver/ssasy-ext';
 import type { RawKey } from '@this-oliver/ssasy';
 import type { IUser } from '@/stores';
 
