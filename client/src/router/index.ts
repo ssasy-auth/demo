@@ -22,12 +22,7 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: () => import('@/pages/UsersPage.vue')
-    },
-    {
-      path: '/download',
-      name: 'download',
-      component: () => import('@/pages/DownloadPage.vue')
+      component: () => import('@/pages/user/IndexPage.vue')
     },
     {
       path: '/auth/register',

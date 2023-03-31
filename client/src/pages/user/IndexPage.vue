@@ -17,7 +17,7 @@ onMounted(() => {
     <v-row justify="center">
       <v-col
         cols="11"
-        md="6"
+        md="7"
         v-for="user in userStore.users"
         :key="user.username">
         <user-card :user="user" />
