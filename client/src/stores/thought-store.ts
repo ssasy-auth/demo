@@ -11,7 +11,7 @@ export interface IThought {
   createdAt: string;
 }
 
-export const useStatusStore = defineStore('thought', () => {
+export const useThoughtStore = defineStore('thought', () => {
   const _thoughts = ref<IThought[]>([]);
 
   const thoughts = computed<IThought[]>(() => {
@@ -22,7 +22,7 @@ export const useStatusStore = defineStore('thought', () => {
   });
 
 
-  async function postStatus(text: string) {
+  async function postThought(text: string) {
     const authStore = useAuthStore();
     const token = authStore.token;
 
@@ -64,7 +64,7 @@ export const useStatusStore = defineStore('thought', () => {
 
   return {
     thoughts,
-    postStatus,
+    postThought,
     fetchThoughts
   }
 });

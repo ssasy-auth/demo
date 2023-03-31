@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useStatusStore } from '@/stores';
+import { useThoughtStore } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import InputTextArea from '@/components/base/InputTextArea.vue';
 import ThoughtCard from '@/components/ThougtCard.vue';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
-const thoughtStore = useStatusStore();
+const thoughtStore = useThoughtStore();
 
 const form = ref<string>('');
 
@@ -25,7 +25,7 @@ const actions: ActionItem[] = [
 ];
 
 async function postStatus() {
-  await thoughtStore.postStatus(form.value);
+  await thoughtStore.postThought(form.value);
   form.value = '';
 }
 
