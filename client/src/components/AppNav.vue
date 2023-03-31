@@ -1,21 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useDisplay } from 'vuetify'
-import { useRouter } from 'vue-router';
-import { useSidebarStore } from '@/stores'
-import { useNavRoutes } from '@/composables'
-import BaseBtn from './base/BaseBtn.vue';
+import { useDisplay } from 'vuetify';
+import { useSidebarStore } from '@/stores';
 import AppLogo from './AppLogo.vue';
 
-const router = useRouter(); 
 const sidebarStore = useSidebarStore();
 
 const { name } = useDisplay();
-const { getAppOptions, getAuthOptions } = useNavRoutes(router);
-
-const isSmallScreen = computed(() => {
-  return name.value === 'xs' || name.value === 'sm';
-});
 
 </script>
 
@@ -23,43 +13,20 @@ const isSmallScreen = computed(() => {
   <v-app-bar
     app
     flat
+    color="transparent"
     class="bar-container">
     <v-app-bar-nav-icon
-      v-if="isSmallScreen"
-      @click="sidebarStore.toggle" />
+      v-if="name === 'xs' || name === 'sm'"
+      icon="mdi-account-circle"
+      @click="sidebarStore.toggle"/>
 
-      
-    <base-btn
-      text
+    <router-link
+      class="bar-logo hide-link"
       to="/">
       <app-logo />
-    </base-btn>
+    </router-link>
 
     <v-spacer />
-
-    <div
-      v-if="!isSmallScreen"
-      style="padding-right: 25px;">
-      <base-btn
-        v-for="option in getAppOptions"
-        :key="option.label"
-        :to="option.to"
-        :color="option.color"
-        class="mx-1"
-        @click="option.action">
-        {{ option.label }}
-      </base-btn>
-
-      <base-btn
-        v-for="option in getAuthOptions"
-        :key="option.label"
-        :to="option.to"
-        :color="option.color"
-        class="mx-1"
-        @click="option.action">
-        {{ option.label }}
-      </base-btn>
-    </div>
   </v-app-bar>
 </template>
 

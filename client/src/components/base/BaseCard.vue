@@ -10,6 +10,7 @@ export interface ActionItem {
   label: string;
   description?: string;
   color?: string;
+  icon?: string;
   disabled?: boolean;
   outlined?: boolean;
   hint?: string;

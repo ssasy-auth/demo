@@ -3,7 +3,6 @@ import { Bridge } from '@this-oliver/ssasy-ext';
 import { loginUser } from '@/logic';
 import { useAuthStore, useSidebarStore } from '@/stores';
 import type { Router } from 'vue-router';
-import type { IUser } from '@/stores';
 import type { ActionItem } from '@/components/base/BaseCard.vue'
 
 export function useNavRoutes(router: Router) {
@@ -11,25 +10,25 @@ export function useNavRoutes(router: Router) {
   const sidebarStore = useSidebarStore();
 
   const extensionInstalled = ref(false);
-  const user = computed<IUser | undefined>(() => authStore.user);
+
 
   const _appOptions: ActionItem[] = [
-    { label: 'thoughts', icon:'mdi-message-outline', to: '/thoughts' },
-    { label: 'users', icon: 'mdi-account-group-outline', to: '/users' }
+    { label: 'Thoughts', icon:'mdi-message-outline', to: '/thoughts' },
+    { label: 'Users', icon: 'mdi-account-group-outline', to: '/users' }
   ];
   
   const _authOptions: ActionItem[] = [
-    { label: 'login', action: _loginUser },
-    { label: 'register', to: '/auth/register' }
+    { label: 'Login', icon:'mdi-key-outline', action: _loginUser },
+    { label: 'Register', icon:'mdi-account-plus-outline', to: '/auth/register' }
   ]
 
   const _extensionOptions: ActionItem[] = [
-    { label: 'download ssasy extension', action: _goToExtension }
+    { label: 'Download ssasy extension', icon: 'mdi-download-box-outline', action: _goToExtension }
   ]
 
   const _userOptions: ActionItem[] = [
-    { label: `@${user.value?.username || 'not_available'}`, to: '/profile' },
-    { label: 'logout', color: 'error', action: _logoutUser }
+    { label: 'Profile', icon: 'mdi-account-cog-outline', to: '/profile' },
+    { label: 'Logout', icon:'mdi-logout', color: 'error', action: _logoutUser }
   ]
 
   const getAppOptions = computed<ActionItem[]>(() => {

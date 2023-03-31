@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LandingPage from '@/pages/LandingPage.vue'
+import ThoughtsPage from '@/pages/thought/IndexPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +7,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: LandingPage
+      component: ThoughtsPage
+    },
+    {
+      path: '/thoughts',
+      name: 'thoughts',
+      component: ThoughtsPage
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('@/pages/ProfilePage.vue')
-    },
-    {
-      path: '/thoughts',
-      name: 'thoughts',
-      component: () => import('@/pages/thought/IndexPage.vue')
     },
     {
       path: '/users/:id',
