@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useUserStore } from '@/stores';
+import { useAuthStore } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import UserCard from '@/components/UserCard.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 
-const userStore = useUserStore();
-const user = ref(userStore.user);
+const authStore = useAuthStore();
 
 </script>
 
@@ -14,10 +12,9 @@ const user = ref(userStore.user);
   <base-page title="Profile">
     <v-row justify="center">
       <v-col
-        v-if="user"
-        cols="11"
-        md="6">
-        <user-card :user="user" />
+        v-if="authStore.user"
+        cols="auto">
+        <user-card :user="authStore.user" />
       </v-col>
 
       <v-col
