@@ -9,6 +9,11 @@ const props = defineProps({
   thought: {
     type: Object as PropType<IThought>,
     required: true
+  },
+
+  disableAuthorLink: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -23,7 +28,14 @@ const humanReadableDate = computed<string>(() => {
       justify="space-between"
       no-gutters>
       <v-col cols="6">
+        <b v-if="props.disableAuthorLink">@{{ thought.author.username }}</b>
+        
+        <router-link
+          v-else
+          class="hide-link"
+          :to="`/users/${thought.author._id}`">
           <b>@{{ thought.author.username }}</b>
+        </router-link>
       </v-col>
 
       <v-col

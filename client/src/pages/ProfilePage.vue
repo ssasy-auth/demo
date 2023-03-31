@@ -14,7 +14,9 @@ const authStore = useAuthStore();
       <v-col
         v-if="authStore.user"
         cols="auto">
-        <user-card :user="authStore.user" />
+        <user-card
+          :user="authStore.user"
+          :show-thoughts="true" />
       </v-col>
 
       <v-col

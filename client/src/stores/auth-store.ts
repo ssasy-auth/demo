@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/logic';
 import { fetchApi } from '@/util';
-import type { IUser } from './user';
+import type { IUser } from './user-store';
 import type { RawKey } from '@this-oliver/ssasy'
 
 const KEY_STORAGE_USER = 'ssasy-demo-user';
