@@ -115,6 +115,7 @@ export const useAuthStore = defineStore('auth', {
 
       // reset user
       this.user = undefined;
+      storage.removeItem(KEY_STORAGE_USER);
       
       this.$reset();
     }
