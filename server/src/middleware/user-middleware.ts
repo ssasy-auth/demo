@@ -1,4 +1,4 @@
-import { getUserByPublicKey, getUserById, indexUsers  } from "../data";
+import { getUserById, indexUsers  } from "../data";
 import type { Request, Response } from "express";
 
 async function fetchAllUsers (req: Request, res: Response) {
@@ -21,26 +21,7 @@ async function fetchUserById(req: Request, res: Response) {
       throw new Error("User not found");
     }
   
-    return res.status(200).json({ user });
-    
-  } catch (error) {
-    const errorMessage = (error as Error).message || "failed to fetch user"
-    return res.status(500).json({ message: errorMessage });
-  }
-
-}
-
-async function fetchUserByPublicKey(req: Request, res: Response) {
-  const { x, y } = req.params;
-
-  try {
-    const user = await getUserByPublicKey(x, y);
-  
-    if (!user) {
-      throw new Error("User not found");
-    }
-  
-    return res.status(200).json({ user });
+    return res.status(200).json(user);
     
   } catch (error) {
     const errorMessage = (error as Error).message || "failed to fetch user"
@@ -51,6 +32,5 @@ async function fetchUserByPublicKey(req: Request, res: Response) {
 
 export {
   fetchAllUsers,
-  fetchUserById,
-  fetchUserByPublicKey
+  fetchUserById
 }

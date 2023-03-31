@@ -7,7 +7,6 @@ import {
   verifyAccessToken,
   fetchAllUsers, 
   fetchUserById,
-  fetchUserByPublicKey,
   postThought,
   fetchThought,
   fetchAllThoughts
@@ -35,7 +34,6 @@ const routes: Route[] = [
 
   // user routes
   { path: "/users/:id", method: "get", middleware: [fetchUserById] },
-  { path: "/users/:x/:y", method: "get", middleware: [fetchUserByPublicKey] },
   { path: "/users", method: "get", middleware: [fetchAllUsers] },
 
   // status routes
