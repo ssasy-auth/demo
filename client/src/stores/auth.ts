@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useUserStore } from './user';
 import { storage } from '@/logic';
 import { fetchApi } from '@/util';
 import type { IUser } from './user';
