@@ -6,6 +6,7 @@ import {
   postLogin,
   verifyAccessToken,
   fetchAllUsers, 
+  fetchUserById,
   fetchUserByPublicKey,
   postThought,
   fetchThought,
@@ -33,6 +34,7 @@ const routes: Route[] = [
   { path: "/auth/login", method: "post", middleware: [postLogin] },
 
   // user routes
+  { path: "/users/:id", method: "get", middleware: [fetchUserById] },
   { path: "/users/:x/:y", method: "get", middleware: [fetchUserByPublicKey] },
   { path: "/users", method: "get", middleware: [fetchAllUsers] },
 
