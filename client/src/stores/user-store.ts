@@ -3,7 +3,7 @@ import { fetchApi } from '@/util';
 import type { RawKey, StandardCiphertext } from '@this-oliver/ssasy'
 
 export interface IUser {
-  id?: string;
+  _id?: string;
   username: string;
   credential: { publicKey: RawKey, signature: StandardCiphertext };
 }

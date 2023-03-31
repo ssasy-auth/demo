@@ -23,7 +23,7 @@ const humanReadableDate = computed<string>(() => {
       justify="space-between"
       no-gutters>
       <v-col cols="6">
-        <b>@{{ thought.author.username }}</b>
+          <b>@{{ thought.author.username }}</b>
       </v-col>
 
       <v-col
