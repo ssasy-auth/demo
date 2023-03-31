@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <h1 class="text-primary" ><code>SSASy</code> Demo</h1>
+  <h1>💬</h1>
 </template>
