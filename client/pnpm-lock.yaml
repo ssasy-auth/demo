@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@mdi/font': ^7.2.96
   '@rushstack/eslint-patch': ^1.2.0
   '@this-oliver/ssasy': 1.8.8
   '@this-oliver/ssasy-ext': 0.18.7
@@ -23,6 +24,7 @@ specifiers:
   vuetify: ^3.1.10
 
 dependencies:
+  '@mdi/font': 7.2.96
   '@this-oliver/ssasy': 1.8.8
   '@this-oliver/ssasy-ext': 0.18.7
   pinia: 2.0.33_7h6e7cvei2rsgyre2mq4fyhehq
@@ -325,6 +327,10 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@mdi/font/7.2.96:
+    resolution: {integrity: sha512-e//lmkmpFUMZKhmCY9zdjRe4zNXfbOIJnn6xveHbaV2kSw5aJ5dLXUxcRt1Gxfi7ZYpFLUWlkG2MGSFAiqAu7w==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
