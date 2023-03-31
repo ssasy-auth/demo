@@ -30,12 +30,20 @@ export const useUserStore = defineStore('user', {
       
       return this.users;
     },
-    resetStore(){
-      // reset user
-      this.user = null;
-      storage.removeItem(KEY_STORAGE_USER);
+    async fetchSingleUser(id: string): Promise<IUser> {
+      const response = await fetchApi(`/users/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-      this.$reset();
+      if(!response.ok){
+        const { message } = await response.json();
+        throw new Error(message);
+      }
+
+      return await response.json();
     }
   }
 })

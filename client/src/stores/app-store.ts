@@ -9,18 +9,23 @@ export const useNavStore = defineStore('nav', () => {
   
   const extensionInstalled = ref(false);
 
-  const getOptions = computed(() => {
+  const getAppOptions = computed<ActionItem[]>(() => {
+    // define base options
+    return [ 
+      { label: 'thoughts', to: '/thoughts' },
+      { label: 'users', to: '/users' }
+    ];
+  });
+
+  const getAuthOptions = computed(() => {
     return (router: Router): ActionItem[] => {
+      const authStore = useAuthStore();
+ 
       // define base options
-      const options: ActionItem[] = [ { label: 'users', to: '/users' } ];
+      const baseOptions: ActionItem[] = [];
 
       // define auth options
       const authOptions: ActionItem[] = [
-        { 
-          label: 'download extension',
-          color: 'grey',
-          to: '/download'
-        },
         { 
           label: 'login',
           color: 'grey',
@@ -59,7 +64,6 @@ export const useNavStore = defineStore('nav', () => {
             label: 'logout',
             color: 'secondary',
             action: () => { 
-              const authStore = useAuthStore();
               authStore.logout();
             } 
           }
@@ -75,17 +79,24 @@ export const useNavStore = defineStore('nav', () => {
           }
         })
       }
-      
-      const authStore = useAuthStore();
-      const user = authStore.user;
 
-      if(user){
-        options.push(..._getUserOptions(user));
+
+      if(authStore.user){
+        baseOptions.push(..._getUserOptions(authStore.user));
       } else {
-        options.push(..._getAuthOptions(extensionInstalled.value));
+        baseOptions.push(..._getAuthOptions(extensionInstalled.value));
       }
 
-      return options;
+      return baseOptions;
+    }
+  });
+
+  const getOptions = computed(() => {
+    return (router: Router): ActionItem[] => {
+      const baseOptions = getAppOptions.value;
+      const authOptions = getAuthOptions.value(router);
+
+      return [ ...baseOptions, ...authOptions ];
     }
   });
 
@@ -96,6 +107,8 @@ export const useNavStore = defineStore('nav', () => {
   return {
     extensionInstalled,
     getOptions,
+    getAppOptions,
+    getAuthOptions,
     setExtensionInstalled
   }
 })
