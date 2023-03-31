@@ -181,7 +181,7 @@ async function postRegister(req: Request, res: Response){
   
   try {
     const user = await createUser(publicKey, signature, username as string);
-    return res.status(201).json({ user });
+    return res.status(201).json(user);
   } catch (error) {
     const errorMessage = (error as Error).message || "Failed to create user";
     return res.status(500).json({ message: errorMessage });

@@ -19,7 +19,7 @@ const StatusSchema = new mongoose.Schema<IStatus>(
 
 const StatusModel = mongoose.model<IStatus>("status", StatusSchema);
 
-async function createStatus(author: Types.ObjectId, text: string): Promise<StatusDocument | null> {
+async function createStatus(author: string, text: string): Promise<StatusDocument | null> {
   const status = new StatusModel({ author, text });
   return await status.save();
 }
@@ -32,7 +32,7 @@ async function indexStatuses(): Promise<StatusDocument[]> {
   return await StatusModel.find().exec();
 }
 
-async function indexStatusesByAuthor(author: Types.ObjectId): Promise<StatusDocument[]> {
+async function indexStatusesByAuthor(author: string): Promise<StatusDocument[]> {
   return await StatusModel.find({ author }).exec();
 }
 

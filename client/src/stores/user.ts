@@ -38,8 +38,7 @@ export const useUserStore = defineStore('user', {
         throw new Error(message);
       }
 
-      const { users } = await response.json();
-      this.users = users;
+      this.users = await response.json();
       
       return this.users;
     },

@@ -4,7 +4,7 @@ import type { Request, Response } from "express";
 async function fetchAllUsers (req: Request, res: Response) {
   try {
     const users = await indexUsers();
-    return res.status(200).json({ users });
+    return res.status(200).json(users);
   } catch (error) {
     const errorMessage = (error as Error).message || "Failed to fetch users"
     return res.status(500).json({ message: errorMessage });

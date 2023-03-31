@@ -68,9 +68,7 @@ export const useAuthStore = defineStore('auth', {
         throw new Error(message);
       }
 
-      const { user } = await response.json();
-
-      return user;
+      return await response.json();
     },
     async loginUser(publicKey: RawKey, encryptedSolution: string): Promise<IUser>{
       if(!publicKey){
