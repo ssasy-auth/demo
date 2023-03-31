@@ -7,9 +7,9 @@ import {
   verifyAccessToken,
   fetchAllUsers, 
   fetchUserByPublicKey,
-  postStatus,
-  fetchStatus,
-  fetchAllStatuses
+  postThought,
+  fetchThought,
+  fetchAllThoughts
 } from "../middleware";
 
 const router: Router = express.Router();
@@ -37,9 +37,9 @@ const routes: Route[] = [
   { path: "/users", method: "get", middleware: [fetchAllUsers] },
 
   // status routes
-  { path: "/status", method: "post", middleware: [verifyAccessToken, postStatus], restricted: true },
-  { path: "/status/:id", method: "get", middleware: [fetchStatus] },
-  { path: "/status", method: "get", middleware: [fetchAllStatuses] },
+  { path: "/thoughts", method: "post", middleware: [verifyAccessToken, postThought], restricted: true },
+  { path: "/thoughts/:id", method: "get", middleware: [fetchThought] },
+  { path: "/thoughts", method: "get", middleware: [fetchAllThoughts] },
 ];
 
 routes.forEach((route) => {
