@@ -33,7 +33,8 @@ onMounted(async () => {
     <v-row justify="center">
       <v-col
         v-if="errorMessage"
-        cols="auto">
+        cols="11"
+        md="6">
         <base-card>
           <p class="text-center">
             {{ errorMessage }}
@@ -43,7 +44,8 @@ onMounted(async () => {
 
       <v-col
         v-if="loading"
-        cols="auto">
+        cols="11"
+        md="6">
         <base-card>
           <p class="text-center">
             Loading...
@@ -53,7 +55,7 @@ onMounted(async () => {
 
       <v-col
         v-else-if="user"
-        cols="auto">
+        cols="11">
         <user-card
           :user="user"
           :show-public-key="true"

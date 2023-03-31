@@ -37,32 +37,47 @@ async function register(){
 
 <template>
   <base-page title="Register">
+    <v-sheet
+      color="grey-lighten-3"
+      rounded="lg">
+      <v-row
+        justify="center"
+        style="padding-top: 50px;">
+        <v-col
+          cols="11"
+          class="text-center">
+        </v-col>
+
+        <v-col cols="11">
+          <input-text
+            v-model="username"
+            label="Enter username..."
+            :is-valid="isValidUsername" />
+        </v-col>
+      
+        <v-divider class="border-opacity-0" />
+      
+        <v-col cols="auto">
+          <base-btn
+            large
+            @click="register"
+            :disabled="!isValidUsername">Register</base-btn>
+        </v-col>
+      </v-row>
+    </v-sheet>
+
     <v-row
       justify="center"
       style="padding-top: 50px;">
-      <v-col
-        cols="11"
-        md="6">
-        <input-text
-          v-model="username"
-          label="username"
-          :is-valid="isValidUsername" />
-      </v-col>
-      <v-divider class="border-opacity-0" />
-      <v-col cols="auto">
-        <base-btn
-          large
-          color="secondary"
-          @click="register"
-          :disabled="!isValidUsername">Register</base-btn>
-      </v-col>
+      
       <v-divider
         v-if="error"
         class="border-opacity-0 mt-2" />
+      
       <v-col
         v-if="error"
         cols="11"
-        md="auto">
+        md="6">
         <base-card class="pa-2">
           <p class="text-center">
             {{ error }}

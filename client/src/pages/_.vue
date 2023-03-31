@@ -8,7 +8,9 @@ const route = useRoute();
 
 <template>
   <base-page title="Oops">
-    <p>Can't find a page that matches the <code class="underline">{{ route.path }}</code> path</p>
+    <p>
+      Can't find a page that matches the <code class="underline">{{ route.path }}</code> path
+    </p>
   </base-page>
 </template>
 

@@ -37,9 +37,7 @@ onMounted(() => {
 <template>
   <base-page title="Thoughts">
     <v-row justify="center">
-      <v-col
-        cols="11"
-        md="7">
+      <v-col cols="11">
 
         <base-card :actions="actions">
           <input-text-area
@@ -53,7 +51,6 @@ onMounted(() => {
 
       <v-col
         cols="11"
-        md="7"
         v-for="thought in thoughtStore.thoughts"
         :key="thought._id">
         <thought-card :thought="thought" />

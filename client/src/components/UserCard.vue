@@ -65,6 +65,7 @@ onMounted(async () => {
   <base-card class="pa-1">
     <v-row
       justify="space-between"
+      align="center"
       no-gutters>
       <v-col cols="6">
         <router-link
