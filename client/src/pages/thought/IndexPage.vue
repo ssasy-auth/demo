@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useThoughtStore } from '@/stores';
+import { useAuthStore, useThoughtStore } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import InputTextArea from '@/components/base/InputTextArea.vue';
 import ThoughtCard from '@/components/ThoughtCard.vue';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
+const authStore = useAuthStore();
 const thoughtStore = useThoughtStore();
 
 const form = ref<string>('');
+const errorMessage = ref<string | undefined>(undefined);
 
 const validForm = computed<boolean>(() => {
   return form.value.length > 0;
@@ -25,6 +27,16 @@ const actions: ActionItem[] = [
 ];
 
 async function postStatus() {
+  if(!validForm.value){
+    errorMessage.value = '<p>A thought must be at least 1 character long.</p> <p>Add more characters and try again.</p>';
+    return;
+  }
+
+  if(!authStore.user){
+    errorMessage.value = '<p>You must be logged in to post a thought.</p> <p>Please login or register and try again.</p>';
+    return;
+  }
+
   await thoughtStore.postThought(form.value);
   form.value = '';
 }
@@ -43,6 +55,11 @@ onMounted(() => {
           <input-text-area
             v-model="form"
             place-holder="What's on your mind?" />
+
+          <p
+            v-if="errorMessage"
+            class="text-center text-warning"
+            v-html="errorMessage" />
         </base-card>
         
       </v-col>

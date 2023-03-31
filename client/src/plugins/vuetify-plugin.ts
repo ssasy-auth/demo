@@ -16,8 +16,6 @@ const customLightTheme: ThemeDefinition = {
     'on-primary': '#ffffff',
     secondary: '#f7bb41',
     'on-secondary': '#ffffff',
-    info: '#b3e5fc',
-    warning: '#ffeb3b',
     error: '#ba1a1a'
   } 
 }
