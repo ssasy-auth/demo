@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores';
 import { fetchApi } from '@/util';
-import type { IUser } from './user';
+import type { IUser } from '@/stores';
 
 export interface IThought {
   _id: string;
