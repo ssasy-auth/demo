@@ -41,20 +41,13 @@ async function fetchThought(req: Request, res: Response){
 }
 
 async function fetchAllThoughts(req: Request, res: Response){
-  try {
-    const thoughts = await indexThoughts();
-    return res.status(200).json(thoughts);
-  } catch (error) {
-    const message = (error as Error).message || "Failed to fetch thoughts";
-    return res.status(500).json({ message: message });
-  }
-}
-
-async function fetchAllThoughtsByAuthor(req: Request, res: Response){
-  const { author } = req.params;
+  const { author } = req.query;
 
   try {
-    const thoughts = await indexThoughtsByAuthor(author);
+    const thoughts = author 
+    ? await indexThoughtsByAuthor(author as string, { populateAuthor: false }) // save on db calls
+    : await indexThoughts();
+
     return res.status(200).json(thoughts);
   } catch (error) {
     const message = (error as Error).message || "Failed to fetch thoughts";
@@ -65,6 +58,5 @@ async function fetchAllThoughtsByAuthor(req: Request, res: Response){
 export {
   postThought,
   fetchThought,
-  fetchAllThoughts,
-  fetchAllThoughtsByAuthor
+  fetchAllThoughts
 }

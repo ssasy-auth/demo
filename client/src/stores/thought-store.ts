@@ -49,8 +49,21 @@ export const useThoughtStore = defineStore('thought', () => {
     return thought;
   }
 
-  async function fetchThoughts() {
+  async function fetchThoughts(): Promise<IThought[]> {
     const res = await fetchApi('/thoughts');
+
+    if(!res.ok){
+      const { message } = await res.json();
+      throw new Error(message);
+    }
+
+    _thoughts.value = await res.json();
+
+    return _thoughts.value;
+  }
+
+  async function fetchThoughtsByAuthor(id: string): Promise<IThought[]> {
+    const res = await fetchApi(`/thoughts?author=${id}`);
 
     if(!res.ok){
       const { message } = await res.json();
@@ -65,6 +78,7 @@ export const useThoughtStore = defineStore('thought', () => {
   return {
     thoughts,
     postThought,
-    fetchThoughts
+    fetchThoughts,
+    fetchThoughtsByAuthor
   }
 });
