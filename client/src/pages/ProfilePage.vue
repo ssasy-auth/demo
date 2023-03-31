@@ -16,7 +16,8 @@ const authStore = useAuthStore();
         cols="auto">
         <user-card
           :user="authStore.user"
-          :show-thoughts="true" />
+          :show-thoughts="true"
+          :show-public-key="true"/>
       </v-col>
 
       <v-col

@@ -56,6 +56,7 @@ onMounted(async () => {
         cols="auto">
         <user-card
           :user="user"
+          :show-public-key="true"
           :show-thoughts="true" />
       </v-col>
 
