@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { loginUser } from '@/logic';
-import { useUserStore } from '@/stores';
+import { useAuthStore } from '@/stores';
 import type { Router } from 'vue-router';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
@@ -51,7 +51,7 @@ export const useNavStore = defineStore('nav', () => {
       function _getUserOptions(user: any): ActionItem[] {
         return [
           { 
-            label: user.username, 
+            label: `@${user.username}`, 
             color: 'secondary',
             to: '/profile'
           },
@@ -59,8 +59,8 @@ export const useNavStore = defineStore('nav', () => {
             label: 'logout',
             color: 'secondary',
             action: () => { 
-              const userStore = useUserStore();
-              userStore.removeUser();
+              const authStore = useAuthStore();
+              authStore.logout();
             } 
           }
         ]
@@ -76,10 +76,11 @@ export const useNavStore = defineStore('nav', () => {
         })
       }
       
-      const userStore = useUserStore();
+      const authStore = useAuthStore();
+      const user = authStore.user;
 
-      if(userStore.user){
-        options.push(..._getUserOptions(userStore.user));
+      if(user){
+        options.push(..._getUserOptions(user));
       } else {
         options.push(..._getAuthOptions(extensionInstalled.value));
       }

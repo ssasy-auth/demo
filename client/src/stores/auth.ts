@@ -5,11 +5,13 @@ import { fetchApi } from '@/util';
 import type { IUser } from './user';
 import type { RawKey } from '@this-oliver/ssasy'
 
+const KEY_STORAGE_USER = 'ssasy-demo-user';
 const KEY_STORAGE_TOKEN = 'ssasy-demo-token';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: storage.getItem(KEY_STORAGE_TOKEN) as string | null
+    token: storage.getItem(KEY_STORAGE_TOKEN) as string | undefined,
+    user: storage.getItem(KEY_STORAGE_USER) as IUser | undefined
   }),
   getters: {
     hasToken(): boolean {
@@ -99,22 +101,21 @@ export const useAuthStore = defineStore('auth', {
 
       // set token
       this.token = token;
-      storage.saveItem(KEY_STORAGE_TOKEN, token);
+      storage.saveItem(KEY_STORAGE_TOKEN, this.token);
 
       // set user
-      const userStore = useUserStore();
-      userStore.setUser(user);
+      this.user = user;
+      storage.saveItem(KEY_STORAGE_USER, this.user);
 
       return user;
     },
     logout(){
       // reset token
-      this.token = null;
+      this.token = undefined;
       storage.removeItem(KEY_STORAGE_TOKEN);
 
       // reset user
-      const userStore = useUserStore();
-      userStore.removeUser();
+      this.user = undefined;
       
       this.$reset();
     }

@@ -1,6 +1,6 @@
 {
   "name": "ssasy-demo",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "a client and server demo of the ssasy extension",
   "license": "MIT",
   "repository": "this-oliver/ssasy-demo",
@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "fist-bump": "^1.2.4"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.7"
   }
 }

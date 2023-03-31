@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
-import { storage } from '@/logic';
 import { fetchApi } from '@/util';
 import type { RawKey, StandardCiphertext } from '@this-oliver/ssasy'
-
-const KEY_STORAGE_USER = 'ssasy-demo-user';
 
 export interface IUser {
   id?: string;
@@ -13,18 +10,9 @@ export interface IUser {
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: storage.getItem(KEY_STORAGE_USER) as IUser | null,
     users: [] as IUser[]
   }),
   actions: {
-    setUser(user: IUser){
-      this.user = user;
-      storage.saveItem(KEY_STORAGE_USER, user);
-    },
-    removeUser(){
-      this.user = null;
-      storage.removeItem(KEY_STORAGE_USER);
-    },
     async fetchUsers(): Promise<IUser[]> {
       const response = await fetchApi('/users', {
         method: 'GET',
