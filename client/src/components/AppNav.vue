@@ -1,30 +1,21 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useDisplay } from 'vuetify'
 import { useRouter } from 'vue-router';
-import { Bridge } from '@this-oliver/ssasy-ext';
-import { useNavStore, useSidebarStore } from '@/stores'
+import { useSidebarStore } from '@/stores'
+import { useNavRoutes } from '@/composables'
 import BaseBtn from './base/BaseBtn.vue';
 import AppLogo from './AppLogo.vue';
 
-const navStore = useNavStore();
+const router = useRouter(); 
 const sidebarStore = useSidebarStore();
+
 const { name } = useDisplay();
+const { getAppOptions, getAuthOptions } = useNavRoutes(router);
 
 const isSmallScreen = computed(() => {
   return name.value === 'xs' || name.value === 'sm';
 });
-
-const options = computed(() => {
-  const router = useRouter(); 
-  
-  return navStore.getOptions(router);
-})
-
-onMounted(async () => {
-  const installed = await Bridge.isExtensionInstalled();
-  navStore.setExtensionInstalled(installed);
-})
 
 </script>
 
@@ -50,7 +41,17 @@ onMounted(async () => {
       v-if="!isSmallScreen"
       style="padding-right: 25px;">
       <base-btn
-        v-for="option in options"
+        v-for="option in getAppOptions"
+        :key="option.label"
+        :to="option.to"
+        :color="option.color"
+        class="mx-1"
+        @click="option.action">
+        {{ option.label }}
+      </base-btn>
+
+      <base-btn
+        v-for="option in getAuthOptions"
         :key="option.label"
         :to="option.to"
         :color="option.color"
