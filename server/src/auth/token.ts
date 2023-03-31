@@ -20,8 +20,17 @@ function createToken(data: any): string {
  * @returns payload data
  */
 function decodeToken(token: string): any {
-  const decoded = jsonwebtoken.decode(token);
-  return decoded;
+  const decoded: jsonwebtoken.JwtPayload | string | null = jsonwebtoken.decode(token);
+
+  if(decoded === null) {
+    return undefined;
+  }
+
+  if(typeof decoded === "string") {
+    return decoded;
+  }
+
+  return decoded.data;
 }
 
 /**

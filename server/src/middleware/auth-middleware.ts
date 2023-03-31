@@ -2,7 +2,7 @@ import { getServerWallet, createToken, verifyToken, decodeToken } from "../auth"
 import { createUser, getUserByPublicKey, getUserById } from "../data";
 import { EncoderModule, KeyModule, KeyChecker, StandardCiphertext } from "@this-oliver/ssasy";
 import type { IUser, UserDocument } from "../data";
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import type { RawKey, PublicKey } from "@this-oliver/ssasy";
 
 /**
@@ -29,9 +29,8 @@ const helper = {
    */
   extractAuthDetails(
     req: Request, 
-    config?: { requireSignature?: boolean, requireUsername?: boolean, requireToken?: boolean }
+    config?: { requireChallenge?: boolean, requireSignature?: boolean, requireUsername?: boolean, requireToken?: boolean }
   ): AuthDetails {  
-    const token = req.headers.authorization?.split(" ")[1];
     const { publicKey, challenge, username } = req.body as { publicKey: RawKey, challenge: string, username: string };
   
     if (!challenge) {
@@ -46,15 +45,10 @@ const helper = {
       throw new Error("Missing username");
     }
   
-    if (config?.requireToken === true && !token) {
-      throw new Error("Missing token");
-    }
-  
     return {
       publicKey,
       challenge,
-      username,
-      token
+      username
     }
   },
   /**
@@ -105,7 +99,7 @@ const helper = {
       throw new Error("Token is invalid");
     }
   
-    const { id } = decodeToken(token) as { id: string };
+    const { id } = decodeToken(token);
   
     return id;
   }
@@ -226,15 +220,21 @@ async function postLogin(req: Request, res: Response){
 /**
  * Verifies the request access token and attaches the user to the request
  */
-async function verifyAccessToken(req: AuthenticatedRequest, res: Response){
+async function verifyAccessToken(req: AuthenticatedRequest, res: Response, next: NextFunction){
   try {
-    const { token } = helper.extractAuthDetails(req, { requireToken: true });
+
+    const token = req.headers.authorization?.split(" ")[1];
 
     if(!token) {
       throw new Error("Access token is required for this route");
     }
 
     const userId = helper.verifyUserAccessToken(token);
+
+    if(!userId) {
+      throw new Error("Invalid access token");
+    }
+
     const user = await getUserById(userId);
 
     if(!user) {
@@ -244,6 +244,7 @@ async function verifyAccessToken(req: AuthenticatedRequest, res: Response){
     // add user to request
     req.user = user;
 
+    next();
   } catch (error) {
     const message = (error as Error).message || "Failed to verify token";
     return res.status(500).json({ message });
