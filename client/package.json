@@ -1,5 +1,5 @@
 {
-  "name": "demo-client",
+  "name": "@ssasy-auth/demo-client",
   "description": "a client demo for the ssasy extension",
   "scripts": {
     "dev": "vite",

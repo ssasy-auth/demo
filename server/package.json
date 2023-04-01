@@ -1,5 +1,5 @@
 {
-  "name": "demo-server",
+  "name": "@ssasy-auth/demo-server",
   "description": "a server demo for the ssasy extension",
   "main": "dist/index.js",
   "scripts": {
