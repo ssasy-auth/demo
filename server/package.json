@@ -1,5 +1,5 @@
 {
-  "name": "ssasy-demo-server",
+  "name": "demo-server",
   "description": "a server demo for the ssasy extension",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "nodemon --watch src --exec \"ts-node\" src/index.ts"
   },
   "dependencies": {
-    "@this-oliver/ssasy": "1.8.8",
+    "@ssasy-auth/core": "1.8.8",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

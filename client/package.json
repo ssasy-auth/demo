@@ -1,5 +1,5 @@
 {
-  "name": "ssasy-demo-client",
+  "name": "demo-client",
   "description": "a client demo for the ssasy extension",
   "scripts": {
     "dev": "vite",
@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",
-    "@this-oliver/ssasy": "1.8.8",
-    "@this-oliver/ssasy-ext": "0.18.7",
+    "@ssasy-auth/core": "1.8.8",
+    "@ssasy-auth/extension": "0.18.11",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",

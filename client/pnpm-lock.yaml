@@ -3,8 +3,8 @@ lockfileVersion: 5.4
 specifiers:
   '@mdi/font': ^7.2.96
   '@rushstack/eslint-patch': ^1.2.0
-  '@this-oliver/ssasy': 1.8.8
-  '@this-oliver/ssasy-ext': 0.18.7
+  '@ssasy-auth/core': 1.8.8
+  '@ssasy-auth/extension': 0.18.11
   '@types/node': ^18.14.2
   '@vitejs/plugin-vue': ^4.0.0
   '@vue/eslint-config-prettier': ^7.1.0
@@ -25,8 +25,8 @@ specifiers:
 
 dependencies:
   '@mdi/font': 7.2.96
-  '@this-oliver/ssasy': 1.8.8
-  '@this-oliver/ssasy-ext': 0.18.7
+  '@ssasy-auth/core': 1.8.8
+  '@ssasy-auth/extension': 0.18.11
   pinia: 2.0.33_7h6e7cvei2rsgyre2mq4fyhehq
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
@@ -357,16 +357,14 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
-  /@this-oliver/ssasy-ext/0.18.7:
-    resolution: {integrity: sha512-Nb26dqt4hsJDix5bA9oWtgYLWy5OPbxBo8Twi0OzdmMdwBpctbW7ZUmBh+FpS8h1NU4HZqvDaQCXywHsSbo1ow==, tarball: download/@this-oliver/ssasy-ext/0.18.7/f39d8ae8d3a127a94e5d33d717cb3c4568e9c8fa}
-    dependencies:
-      '@this-oliver/ssasy': 1.8.8
-    dev: false
-
-  /@this-oliver/ssasy/1.8.8:
-    resolution: {integrity: sha512-ndMBA/PcAPwH67NVJqz6RsB/BXkKWrL0ba4zOYLjZSufC5v4WnhLXvysgvhRXiKdg7tsJXLg9+Q4cv+pPqWTtw==, tarball: download/@this-oliver/ssasy/1.8.8/20d77c828dee810627552e0fb0f04eca0bf5d320}
+  /@ssasy-auth/core/1.8.8:
+    resolution: {integrity: sha512-YBjkZFqzcsDmFISyiIueuUeQuC6U6lWCcS+a0MbZxldwOO4mbKA9w9X2soeWF/bvGvcqKvfwovwRcBVXg5/VXg==, tarball: download/@ssasy-auth/core/1.8.8/b2b07b09b9ead6c5b04cafddf13bf9db7848fdce}
     dependencies:
       buffer: 6.0.3
+    dev: false
+
+  /@ssasy-auth/extension/0.18.11:
+    resolution: {integrity: sha512-KPbukoFRDYgS4Oha+hktAZmPp3SLJc6wVX/2MIWSuqgKH2ygjQWePHrkjXjg90OjJbx2jyuD9ZnHv/jI2G866w==, tarball: download/@ssasy-auth/extension/0.18.11/445778da9f997a442cc09b96d24e462ce94c3cdd}
     dev: false
 
   /@types/json-schema/7.0.11:

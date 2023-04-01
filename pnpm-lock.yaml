@@ -1,11 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  dayjs: ^1.11.7
   fist-bump: ^1.2.4
-
-dependencies:
-  dayjs: 1.11.7
 
 devDependencies:
   fist-bump: 1.2.4
@@ -26,10 +22,6 @@ packages:
   /concat-map/0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: true
-
-  /dayjs/1.11.7:
-    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
-    dev: false
 
   /fist-bump/1.2.4:
     resolution: {integrity: sha512-kJdP/To5OdyIkeOYBqwYh3DbjffNdb79peH2d9/CsHht9vXsIgEX3GaqcMAMtZQBcubjI1N3taEBXM+Ol1/gwA==}
