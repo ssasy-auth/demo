@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores';
-import { Bridge } from '@this-oliver/ssasy-ext';
-import type { RawKey } from '@this-oliver/ssasy';
+import { Bridge } from '@ssasy-auth/extension';
+import type { RawKey } from '@ssasy-auth/core';
 import type { IUser } from '@/stores';
 
 export async function registerUser(username: string): Promise<IUser>{

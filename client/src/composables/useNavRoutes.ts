@@ -1,5 +1,5 @@
 import { ref, computed, onMounted } from 'vue'
-import { Bridge } from '@this-oliver/ssasy-ext';
+import { Bridge } from '@ssasy-auth/extension';
 import { loginUser } from '@/logic';
 import { useAuthStore, useSidebarStore } from '@/stores';
 import type { Router } from 'vue-router';

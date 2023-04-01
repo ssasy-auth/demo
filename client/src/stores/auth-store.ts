@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { storage } from '@/logic';
 import { fetchApi } from '@/util';
 import type { IUser } from './user-store';
-import type { RawKey } from '@this-oliver/ssasy'
+import type { RawKey } from '@ssasy-auth/core'
 
 const KEY_STORAGE_USER = 'ssasy-demo-user';
 const KEY_STORAGE_TOKEN = 'ssasy-demo-token';

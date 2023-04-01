@@ -1,9 +1,9 @@
 import { getServerWallet, createToken, verifyToken, decodeToken } from "../auth";
 import { createUser, getUserByPublicKey, getUserById } from "../data";
-import { EncoderModule, KeyModule, KeyChecker, StandardCiphertext } from "@this-oliver/ssasy";
+import { EncoderModule, KeyModule, KeyChecker, StandardCiphertext } from "@ssasy-auth/core";
 import type { IUser, UserDocument } from "../data";
 import type { Request, Response, NextFunction } from "express";
-import type { RawKey, PublicKey } from "@this-oliver/ssasy";
+import type { RawKey, PublicKey } from "@ssasy-auth/core";
 
 /**
  * An extension of the express request object that adds a user property

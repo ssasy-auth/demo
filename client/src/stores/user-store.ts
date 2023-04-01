@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { fetchApi } from '@/util';
-import type { RawKey, StandardCiphertext } from '@this-oliver/ssasy'
+import type { RawKey, StandardCiphertext } from '@ssasy-auth/core'
 
 export interface IUser {
   _id?: string;

@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import type { RawKey } from '@this-oliver/ssasy';
+import type { RawKey } from '@ssasy-auth/core';
 
 /**
  * Returns the path to the project root

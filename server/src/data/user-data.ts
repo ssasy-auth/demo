@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import type { Document } from "mongoose";
-import type { RawKey, StandardCiphertext } from "@this-oliver/ssasy";
+import type { RawKey, StandardCiphertext } from "@ssasy-auth/core";
 
 interface ICredential {
   /**

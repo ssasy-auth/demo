@@ -1,6 +1,6 @@
 import { getKey } from "../util";
-import { Wallet, KeyModule } from "@this-oliver/ssasy";
-import type { PrivateKey } from "@this-oliver/ssasy";
+import { Wallet, KeyModule } from "@ssasy-auth/core";
+import type { PrivateKey } from "@ssasy-auth/core";
 
 export async function getServerWallet(): Promise<Wallet> {
   const privateKey = await KeyModule.importKey(getKey()) as PrivateKey;
