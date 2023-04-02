@@ -12,7 +12,7 @@ export function useNavRoutes(router: Router) {
   const extensionInstalled = ref(false);
 
 
-  const _appOptions: ActionItem[] = [
+  const _options: ActionItem[] = [
     { label: 'Thoughts', icon:'mdi-message-outline', to: '/thoughts' },
     { label: 'Users', icon: 'mdi-account-group-outline', to: '/users' }
   ];
@@ -27,12 +27,15 @@ export function useNavRoutes(router: Router) {
   ]
 
   const _userOptions: ActionItem[] = [
-    { label: 'Profile', icon: 'mdi-account-cog-outline', to: '/profile' },
     { label: 'Logout', icon:'mdi-logout', color: 'error', action: _logoutUser }
   ]
 
+  const _systemOptions: ActionItem[] = [
+    { label: 'Settings', icon:'mdi-cog-outline', to: '/settings' }
+  ]
+
   const getAppOptions = computed<ActionItem[]>(() => {
-    return _appOptions;
+    return _options;
   });
 
   const getAuthOptions = computed<ActionItem[]>(() => {
@@ -47,6 +50,10 @@ export function useNavRoutes(router: Router) {
     else {
       return _authOptions;
     }
+  });
+
+  const getSystemOptions = computed<ActionItem[]>(() => {
+    return _systemOptions;
   });
 
   function _updateExtensionStatus(status: boolean){
@@ -88,5 +95,5 @@ export function useNavRoutes(router: Router) {
     _updateExtensionStatus(isInstalled);
   });
 
-  return { getAppOptions, getAuthOptions }
+  return { getAppOptions, getAuthOptions, getSystemOptions }
 }

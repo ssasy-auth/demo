@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import('@/pages/auth/RegistrationPage.vue')
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/pages/SettingsPage.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'wildcard',
       component: () => import('@/pages/_.vue')

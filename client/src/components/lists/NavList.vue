@@ -5,7 +5,7 @@ import { useNavRoutes } from '@/composables';
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { getAppOptions, getAuthOptions } = useNavRoutes(router);
+const { getAppOptions, getAuthOptions, getSystemOptions } = useNavRoutes(router);
 </script>
 
 <template>
@@ -13,7 +13,8 @@ const { getAppOptions, getAuthOptions } = useNavRoutes(router);
     <v-list-item
       v-if="authStore.user"
       color="primary"
-      class="nav-label">
+      class="nav-label"
+      to="/profile">
       <template v-slot:prepend>
         <v-icon icon="mdi-account-box-outline"></v-icon>
       </template>
@@ -22,6 +23,21 @@ const { getAppOptions, getAuthOptions } = useNavRoutes(router);
 
     <v-list-item
       v-for="option in getAppOptions"
+      :key="option.label"
+      :to="option.to"
+      class="nav-label"
+      @click="option.action">
+      <template
+        v-if="option.icon"
+        v-slot:prepend>
+        <v-icon :icon="option.icon"></v-icon>
+      </template>
+
+      {{ option.label }}
+    </v-list-item>
+
+    <v-list-item
+      v-for="option in getSystemOptions"
       :key="option.label"
       :to="option.to"
       class="nav-label"
