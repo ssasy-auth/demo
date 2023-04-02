@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { RouterView } from 'vue-router'
 import { useDisplay } from 'vuetify/lib/framework.mjs';
 import AppNav from './components/AppNav.vue';
-import AppNavList from './components/AppNavList.vue';
+import NavList from './components/NavList.vue';
 import AppSidebar from './components/AppSidebar.vue';
 import AppFooter from './components/AppFooter.vue';
 
@@ -26,7 +26,7 @@ const isDesktop = computed(() => {
           <v-col
             v-if="isDesktop"
             cols="3">
-            <app-nav-list />
+            <nav-list />
           </v-col>
           
           <!-- center bar -->

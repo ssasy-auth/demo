@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/stores';
-import AppNavList from './AppNavList.vue';
+import NavList from './NavList.vue';
 
 const sidebarStore = useSidebarStore();
 
@@ -12,7 +12,7 @@ const sidebarStore = useSidebarStore();
     rounded="e-lg"
     :scrim="false">
     
-    <app-nav-list />
+    <nav-list />
     
   </v-navigation-drawer>
 
