@@ -5,6 +5,7 @@ import BasePage from '@/components/base/BasePage.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import InputTextArea from '@/components/base/InputTextArea.vue';
 import ThoughtCard from '@/components/cards/ThoughtCard.vue';
+import MessageCard from '@/components/cards/MessageCard.vue';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
 const authStore = useAuthStore();
@@ -27,13 +28,13 @@ const actions: ActionItem[] = [
 ];
 
 async function postStatus() {
-  if(!validForm.value){
-    errorMessage.value = '<p>A thought must be at least 1 character long.</p> <p>Add more characters and try again.</p>';
+  if (!validForm.value) {
+    errorMessage.value = '<p>A thought must be at least 1 character long. Add more characters and try again.</p>';
     return;
   }
 
-  if(!authStore.user){
-    errorMessage.value = '<p>You must be logged in to post a thought.</p> <p>Please login or register and try again.</p>';
+  if (!authStore.user) {
+    errorMessage.value = '<p>You must be logged in to post a thought. Please login or <a href="/auth/register">register</a> and try again.</p>';
     return;
   }
 
@@ -52,36 +53,21 @@ onMounted(() => {
       <v-col cols="11">
 
         <base-card :actions="actions">
-          <input-text-area
-            v-model="form"
-            place-holder="What's on your mind?" />
+          <input-text-area v-model="form" place-holder="What's on your mind?" />
 
-          <p
-            v-if="errorMessage"
-            class="text-center text-warning"
-            v-html="errorMessage" />
+          <message-card v-if="errorMessage" :message="errorMessage" :html-ish="true" color="warning" />
         </base-card>
-        
+
       </v-col>
 
       <v-divider class="border-opacity-0" />
 
-      <v-col
-        cols="11"
-        v-for="thought in thoughtStore.thoughts"
-        :key="thought._id">
+      <v-col cols="11" v-for="thought in thoughtStore.thoughts" :key="thought._id">
         <thought-card :thought="thought" />
       </v-col>
 
-      <v-col
-        v-if="thoughtStore.thoughts.length === 0"
-        cols="11"
-        md="6">
-        <base-card>
-          <p class="text-center">
-            No thoughts yet
-          </p>
-        </base-card>
+      <v-col v-if="thoughtStore.thoughts.length === 0" cols="11" md="6">
+        <message-card message="No thoughts yet" />
       </v-col>
     </v-row>
   </base-page>
