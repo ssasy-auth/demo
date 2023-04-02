@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'landing',
-      component: ThoughtsPage
+      redirect: '/thoughts'
     },
     {
       path: '/thoughts',
