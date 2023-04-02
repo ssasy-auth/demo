@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Bridge } from '@ssasy-auth/extension';
 import BaseCard from '../base/BaseCard.vue';
-import { computed } from '@vue/reactivity';
 
 const extensionInstalled = ref(false);
 
@@ -20,7 +19,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-icon icon="mdi-information-outline"/>
+  <v-icon icon="mdi-information-outline" />
   <BaseCard :outlined="false" :color="getColor" class="mt-2">
     <v-card-text v-if="extensionInstalled">
       <span v-html="getWelcomeMessage"></span>
@@ -34,7 +33,8 @@ onMounted(async () => {
       <br>
       <p>In order to use this app, you need to have a firefox browser with the <b>ssasy</b> extension installed.</p>
       <br>
-      <p>Visit the <a href="https://addons.mozilla.org/en-US/firefox/addon/ssasy/" target="_blank">firefox addons store</a> to download the extension.</p>
+      <p>Visit the <a href="https://addons.mozilla.org/en-US/firefox/addon/ssasy/" target="_blank">firefox addons
+          store</a> to download the extension.</p>
     </v-card-text>
   </BaseCard>
 </template>
