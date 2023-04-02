@@ -5,7 +5,7 @@ import { useThoughtStore } from '@/stores'
 import type { IUser, IThought } from '@/stores'
 import type { PropType } from 'vue'
 import BaseCard from '@/components/base/BaseCard.vue'
-import ThoughtCard from './ThoughtCard.vue'
+import ThoughtCard from '../cards/ThoughtCard.vue'
 
 const props = defineProps({
   // user object as IUser

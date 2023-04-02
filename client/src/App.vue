@@ -3,9 +3,9 @@ import { computed } from 'vue';
 import { RouterView } from 'vue-router'
 import { useDisplay } from 'vuetify/lib/framework.mjs';
 import AppNav from './components/AppNav.vue';
-import NavList from './components/NavList.vue';
 import AppSidebar from './components/AppSidebar.vue';
 import AppFooter from './components/AppFooter.vue';
+import NavList from './components/lists/NavList.vue';
 
 const isDesktop = computed(() => {
   const { name } = useDisplay();

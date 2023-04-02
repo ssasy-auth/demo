@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores';
 import type { IUser } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
-import UserCard from '@/components/UserCard.vue';
+import UserCard from '@/components/cards/UserCard.vue';
 
 const user = ref<IUser | undefined>(undefined);
 const loading = ref<boolean>(true);

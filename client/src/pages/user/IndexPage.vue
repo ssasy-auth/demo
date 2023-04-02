@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { useUserStore } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
-import UserCard from '@/components/UserCard.vue';
+import UserCard from '@/components/cards/UserCard.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 
 const userStore = useUserStore();

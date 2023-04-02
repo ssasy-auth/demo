@@ -4,7 +4,7 @@ import { useAuthStore, useThoughtStore } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import InputTextArea from '@/components/base/InputTextArea.vue';
-import ThoughtCard from '@/components/ThoughtCard.vue';
+import ThoughtCard from '@/components/cards/ThoughtCard.vue';
 import type { ActionItem } from '@/components/base/BaseCard.vue';
 
 const authStore = useAuthStore();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/stores';
-import NavList from './NavList.vue';
+import NavList from './lists/NavList.vue';
 
 const sidebarStore = useSidebarStore();
 
