@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseImage from './base/BaseImage.vue';
-import LogoImage from '@/assets/images/logo.svg'
+import LogoImage from '@/assets/images/ssasy-logo.svg';
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import LogoImage from '@/assets/images/logo.svg'
 
     <v-spacer />
     
-    <base-image
+      <base-image
       :src="LogoImage"
       alt="ssasy logo"
       height="20px"
