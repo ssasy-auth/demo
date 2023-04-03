@@ -2,12 +2,16 @@
 import { computed } from 'vue';
 import { RouterView } from 'vue-router'
 import { useDisplay } from 'vuetify/lib/framework.mjs';
+import { useAuthStore } from '@/stores';
 import AppNav from '@/components/AppNav.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppNotification from '@/components/AppNotification.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import AuthList from '@/components/lists/AuthList.vue';
 import NavList from '@/components/lists/NavList.vue';
 import DemoCard from '@/components/cards/DemoCard.vue';
+
+const authStore = useAuthStore();
 
 const isDesktop = computed(() => {
   const { name } = useDisplay();
@@ -50,6 +54,10 @@ const isDesktop = computed(() => {
             order-md="3"
             class="mt-md-16">
             <demo-card />
+
+            <auth-list
+              v-if="isDesktop && !authStore.user"
+              class="mt-2"/>
           </v-col>
         </v-row>
       </v-container>

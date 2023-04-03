@@ -10,7 +10,7 @@ const getColor = computed<string>(() => {
 });
 
 const getWelcomeMessage = computed<string>(() => {
-  return '<p>This is a demo app for the <b>ssasy</b> browser extension and library.</p>';
+  return '<p>This the demo website for the <b>ssasy</b> browser extension and library.</p>';
 });
 
 onMounted(async () => {
@@ -19,11 +19,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-icon icon="mdi-information-outline" />
   <base-card
     :outlined="false"
     :color="getColor"
     class="mt-2">
+    <v-icon icon="mdi-information-outline" />
+  
     <v-card-text v-if="extensionInstalled">
       <span v-html="getWelcomeMessage"></span>
       <br>

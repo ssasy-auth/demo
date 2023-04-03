@@ -5,7 +5,7 @@ import AppLogo from './AppLogo.vue';
 
 const sidebarStore = useSidebarStore();
 
-const { name } = useDisplay();
+const { smAndDown } = useDisplay();
 
 </script>
 
@@ -16,7 +16,7 @@ const { name } = useDisplay();
     color="transparent"
     class="bar-container">
     <v-app-bar-nav-icon
-      v-if="name === 'xs' || name === 'sm'"
+      v-if="smAndDown"
       icon="mdi-account-circle"
       @click="sidebarStore.toggle"/>
 

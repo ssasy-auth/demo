@@ -20,8 +20,7 @@ export function useNavRoutes(router: Router) {
   ];
   
   const _authOptions: ActionItem[] = [
-    { label: 'Login', icon:'mdi-key-outline', action: _loginUser },
-    { label: 'Register', icon:'mdi-account-plus-outline', to: '/auth/register' }
+    { label: 'Login', icon:'mdi-key-outline', action: _loginUser }
   ]
 
   const _extensionOptions: ActionItem[] = [
