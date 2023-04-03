@@ -9,8 +9,7 @@ const sidebarStore = useSidebarStore();
 <template>
   <v-navigation-drawer
     v-model="sidebarStore.visible"
-    rounded="e-lg"
-    :scrim="false">
+    rounded="e-lg">
     
     <nav-list />
     
