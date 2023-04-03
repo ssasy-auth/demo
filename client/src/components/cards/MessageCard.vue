@@ -30,9 +30,13 @@ const getOutline = computed<boolean>(() => {
 </script>
 
 <template>
-  <base-card :outlined="getOutline" :color="props.color">
+  <base-card
+    :outlined="getOutline"
+    :color="props.color">
     <v-card-text>
-      <span v-if="props.htmlIsh" v-html="props.message" />
+      <span
+        v-if="props.htmlIsh"
+        v-html="props.message" />
       <span v-else>{{ props.message }}</span>
     </v-card-text>
   </base-card>

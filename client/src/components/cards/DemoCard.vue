@@ -20,7 +20,10 @@ onMounted(async () => {
 
 <template>
   <v-icon icon="mdi-information-outline" />
-  <BaseCard :outlined="false" :color="getColor" class="mt-2">
+  <base-card
+    :outlined="false"
+    :color="getColor"
+    class="mt-2">
     <v-card-text v-if="extensionInstalled">
       <span v-html="getWelcomeMessage"></span>
       <br>
@@ -33,8 +36,10 @@ onMounted(async () => {
       <br>
       <p>In order to use this app, you need to have a firefox browser with the <b>ssasy</b> extension installed.</p>
       <br>
-      <p>Visit the <a href="https://addons.mozilla.org/en-US/firefox/addon/ssasy/" target="_blank">firefox addons
-          store</a> to download the extension.</p>
+      <p>Visit the <a
+        href="https://addons.mozilla.org/en-US/firefox/addon/ssasy/"
+        target="_blank">firefox addons
+        store</a> to download the extension.</p>
     </v-card-text>
-  </BaseCard>
+  </base-card>
 </template>

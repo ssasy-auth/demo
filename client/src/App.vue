@@ -24,17 +24,29 @@ const isDesktop = computed(() => {
       <v-container>
         <v-row :justify="isDesktop ? 'space-between' : 'center'">
           <!-- left bar -->
-          <v-col v-if="isDesktop" cols="3" order="3" order-md="1" class="mt-md-16">
+          <v-col
+            v-if="isDesktop"
+            cols="3"
+            order="3"
+            order-md="1"
+            class="mt-md-16">
             <nav-list />
           </v-col>
 
           <!-- center bar -->
-          <v-col md="6" order="2">
+          <v-col
+            md="6"
+            order="2">
             <router-view />
           </v-col>
 
           <!-- right bar -->
-          <v-col cols="11" md="3" order="1" order-md="3" class="mt-md-16">
+          <v-col
+            cols="11"
+            md="3"
+            order="1"
+            order-md="3"
+            class="mt-md-16">
             <demo-card />
           </v-col>
         </v-row>

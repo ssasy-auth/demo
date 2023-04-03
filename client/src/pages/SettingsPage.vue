@@ -21,12 +21,18 @@ watch(dark, (value: boolean) => {
           <v-card-title>Theme</v-card-title>
 
           <v-card-text>
-            <v-row justify="space-between" align="center">
-              <v-col cols="8" md="6">
+            <v-row
+              justify="space-between"
+              align="center">
+              <v-col
+                cols="8"
+                md="6">
                 <p>Toggle between light and dark theme</p>
               </v-col>
               <v-col md="2">
-                <v-switch v-model="dark" color="primary" />
+                <v-switch
+                  v-model="dark"
+                  color="primary" />
               </v-col>
             </v-row>
           </v-card-text>

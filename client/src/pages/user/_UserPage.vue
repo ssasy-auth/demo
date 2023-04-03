@@ -31,19 +31,35 @@ onMounted(async () => {
 <template>
   <base-page title="User">
     <v-row justify="center">
-      <v-col v-if="errorMessage" cols="11" md="6">
-        <message-card :message="errorMessage" color="warning" />
+      <v-col
+        v-if="errorMessage"
+        cols="11"
+        md="6">
+        <message-card
+          :message="errorMessage"
+          color="warning" />
       </v-col>
 
-      <v-col v-if="loading" cols="11" md="6">
+      <v-col
+        v-if="loading"
+        cols="11"
+        md="6">
         <message-card message="Loading..." />
       </v-col>
 
-      <v-col v-else-if="user" cols="11">
-        <user-card :user="user" :show-public-key="true" :show-thoughts="true" />
+      <v-col
+        v-else-if="user"
+        cols="11">
+        <user-card
+          :user="user"
+          :show-public-key="true"
+          :show-thoughts="true" />
       </v-col>
 
-      <v-col v-else cols="11" md="6">
+      <v-col
+        v-else
+        cols="11"
+        md="6">
         <message-card message="It looks like the user you are looking for does not exist" />
       </v-col>
     </v-row>

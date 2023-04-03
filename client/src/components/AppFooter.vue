@@ -9,12 +9,15 @@ import LogoImage from '@/assets/images/ssasy-logo.svg';
 
     <v-spacer />
     
-    <a href="https://www.github.com/ssasy-auth" target="_blank" class="hide-link">
+    <a
+      href="https://www.github.com/ssasy-auth"
+      target="_blank"
+      class="hide-link">
       <base-image
-      :src="LogoImage"
-      alt="ssasy logo"
-      height="20px"
-      class="mx-1"/>
+        :src="LogoImage"
+        alt="ssasy logo"
+        height="20px"
+        class="mx-1"/>
     </a>
   </v-footer>
 </template>
