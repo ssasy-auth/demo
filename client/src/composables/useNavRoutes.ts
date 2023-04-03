@@ -2,12 +2,14 @@ import { ref, computed, onMounted } from 'vue'
 import { Bridge } from '@ssasy-auth/extension';
 import { loginUser } from '@/logic';
 import { useAuthStore, useSidebarStore } from '@/stores';
+import { useNotification } from './useNotification';
 import type { Router } from 'vue-router';
 import type { ActionItem } from '@/components/base/BaseCard.vue'
 
 export function useNavRoutes(router: Router) {
   const authStore = useAuthStore();
   const sidebarStore = useSidebarStore();
+  const { notify } = useNotification();
 
   const extensionInstalled = ref(false);
 
@@ -65,13 +67,15 @@ export function useNavRoutes(router: Router) {
       const user = await loginUser();
 
       if(user){
+        notify('Login', 'Successfully logged in', 'success');
+        
         // redirect to profile page
         router.push('/profile');
       }
 
     } catch (err) {
       const errorMessage = (err as Error).message || 'Failed to login';
-      throw new Error(errorMessage);
+      notify('Login', errorMessage, 'error')
     }
   }
 

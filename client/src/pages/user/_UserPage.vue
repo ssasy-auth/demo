@@ -2,14 +2,16 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores';
+import { useNotification } from '@/composables';
 import type { IUser } from '@/stores';
 import BasePage from '@/components/base/BasePage.vue';
 import UserCard from '@/components/cards/UserCard.vue';
 import MessageCard from '@/components/cards/MessageCard.vue';
 
+const { notify } = useNotification();
+
 const user = ref<IUser | undefined>(undefined);
 const loading = ref<boolean>(true);
-const errorMessage = ref<string | undefined>(undefined);
 
 onMounted(async () => {
   try {
@@ -20,7 +22,8 @@ onMounted(async () => {
     user.value = await userStore.fetchSingleUser(userId);
 
   } catch (err) {
-    errorMessage.value = (err as Error).message || 'Something went wrong';
+    const message = (err as Error).message || 'Something went wrong';
+    notify('User', message, 'error');
   }
 
   loading.value = false;
@@ -31,15 +34,6 @@ onMounted(async () => {
 <template>
   <base-page title="User">
     <v-row justify="center">
-      <v-col
-        v-if="errorMessage"
-        cols="11"
-        md="6">
-        <message-card
-          :message="errorMessage"
-          color="warning" />
-      </v-col>
-
       <v-col
         v-if="loading"
         cols="11"

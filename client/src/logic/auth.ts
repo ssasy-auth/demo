@@ -1,5 +1,5 @@
-import { useAuthStore } from '@/stores';
 import { Bridge } from '@ssasy-auth/extension';
+import { useAuthStore } from '@/stores';
 import type { RawKey } from '@ssasy-auth/core';
 import type { IUser } from '@/stores';
 

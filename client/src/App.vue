@@ -2,11 +2,12 @@
 import { computed } from 'vue';
 import { RouterView } from 'vue-router'
 import { useDisplay } from 'vuetify/lib/framework.mjs';
-import AppNav from './components/AppNav.vue';
-import AppSidebar from './components/AppSidebar.vue';
-import AppFooter from './components/AppFooter.vue';
-import NavList from './components/lists/NavList.vue';
-import DemoCard from './components/cards/DemoCard.vue';
+import AppNav from '@/components/AppNav.vue';
+import AppSidebar from '@/components/AppSidebar.vue';
+import AppNotification from '@/components/AppNotification.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import NavList from '@/components/lists/NavList.vue';
+import DemoCard from '@/components/cards/DemoCard.vue';
 
 const isDesktop = computed(() => {
   const { name } = useDisplay();
@@ -19,8 +20,9 @@ const isDesktop = computed(() => {
   <v-app>
     <app-nav />
     <app-sidebar v-if="!isDesktop" />
-
+    
     <v-main>
+      <app-notification />
       <v-container>
         <v-row :justify="isDesktop ? 'space-between' : 'center'">
           <!-- left bar -->
