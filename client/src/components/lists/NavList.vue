@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useDisplay } from 'vuetify/lib/framework.mjs';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useExtensionStore } from '@/stores';
 import { useNavRoutes } from '@/composables';
 import AuthList from './AuthList.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
+const extensionStore = useExtensionStore();
 const { mdAndUp } = useDisplay();
 const { getAppOptions, getAuthOptions, getSystemOptions } = useNavRoutes(router);
 </script>
@@ -71,7 +71,7 @@ const { getAppOptions, getAuthOptions, getSystemOptions } = useNavRoutes(router)
     </v-list-item>
 
     <v-list-group
-      v-if="!mdAndUp && !authStore.user"
+      v-if="!mdAndUp && !authStore.user && extensionStore.installed"
       class="nav-label">
       <template v-slot:activator="{ props }">
         <v-list-item v-bind="props">

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 export const useSidebarStore = defineStore('sidebar', {
   state: () => ({
@@ -10,3 +11,11 @@ export const useSidebarStore = defineStore('sidebar', {
     }
   }
 })
+
+export const useExtensionStore = defineStore('extension', () => {
+  const installed = ref(false)
+
+  return {
+    installed
+  }
+});

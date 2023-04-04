@@ -1,7 +1,7 @@
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Bridge } from '@ssasy-auth/extension';
 import { loginUser } from '@/logic';
-import { useAuthStore, useSidebarStore } from '@/stores';
+import { useAuthStore, useSidebarStore, useExtensionStore } from '@/stores';
 import { useNotification } from './useNotification';
 import type { Router } from 'vue-router';
 import type { ActionItem } from '@/components/base/BaseCard.vue'
@@ -9,9 +9,8 @@ import type { ActionItem } from '@/components/base/BaseCard.vue'
 export function useNavRoutes(router: Router) {
   const authStore = useAuthStore();
   const sidebarStore = useSidebarStore();
+  const extensionStore = useExtensionStore();
   const { notify } = useNotification();
-
-  const extensionInstalled = ref(false);
 
 
   const _options: ActionItem[] = [
@@ -40,7 +39,7 @@ export function useNavRoutes(router: Router) {
   });
 
   const getAuthOptions = computed<ActionItem[]>(() => {
-    if(!extensionInstalled.value){
+    if(!extensionStore.installed){
       return _extensionOptions;
     }
 
@@ -56,10 +55,6 @@ export function useNavRoutes(router: Router) {
   const getSystemOptions = computed<ActionItem[]>(() => {
     return _systemOptions;
   });
-
-  function _updateExtensionStatus(status: boolean){
-    extensionInstalled.value = status;
-  }
 
   async function _loginUser(){
     try {
@@ -93,9 +88,10 @@ export function useNavRoutes(router: Router) {
   }
 
   onMounted(async () => {
-    // check if extension is installed
-    const isInstalled = await Bridge.isExtensionInstalled();
-    _updateExtensionStatus(isInstalled);
+    if(!extensionStore.installed){
+      // check if extension is installed
+      extensionStore.installed = await Bridge.isExtensionInstalled();
+    }
   });
 
   return { getAppOptions, getAuthOptions, getSystemOptions }

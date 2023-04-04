@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { Bridge } from '@ssasy-auth/extension';
+import { useExtensionStore } from '@/stores';
 import BaseCard from '../base/BaseCard.vue';
 
-const extensionInstalled = ref(false);
+const extensionStore = useExtensionStore();
 
 const getColor = computed<string>(() => {
-  return extensionInstalled.value ? 'info' : 'warning';
+  return extensionStore.installed ? 'info' : 'warning';
 });
 
 const getWelcomeMessage = computed<string>(() => {
@@ -14,7 +15,9 @@ const getWelcomeMessage = computed<string>(() => {
 });
 
 onMounted(async () => {
-  extensionInstalled.value = await Bridge.isExtensionInstalled();
+  if(extensionStore.installed) return;
+
+  extensionStore.installed = await Bridge.isExtensionInstalled();
 });
 </script>
 
@@ -25,7 +28,7 @@ onMounted(async () => {
     class="mt-2">
     <v-icon icon="mdi-information-outline" />
   
-    <v-card-text v-if="extensionInstalled">
+    <v-card-text v-if="extensionStore.installed">
       <span v-html="getWelcomeMessage"></span>
       <br>
       <p>It looks like you have the <b>ssasy</b> extension installed.</p>
