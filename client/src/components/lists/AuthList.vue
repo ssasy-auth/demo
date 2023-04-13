@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import type { ActionItem } from '../base/BaseCard.vue';
-import BaseCard from '../base/BaseCard.vue';
-import BaseImage from '../base/BaseImage.vue';
+import { computed } from 'vue';
+import { useExtensionStore } from '@/stores';
+import type { ActionItem } from '@/components/base/BaseCard.vue';
+import BaseCard from '@/components/base/BaseCard.vue';
+import BaseImage from '@/components/base/BaseImage.vue';
 import SsasyLogo from '@/assets/images/ssasy-logo.svg';
 import BrandAppleImage from '@/assets/images/brand-apple.svg';
 import BrandGoogleImage from '@/assets/images/brand-google.svg';
 import BrandTwitterImage from '@/assets/images/brand-twitter.svg';
+
+const extensionStore = useExtensionStore();
 
 const props = defineProps({
   compact: {
@@ -21,12 +25,14 @@ const props = defineProps({
 interface Brand extends ActionItem {
   image: string;
 }
-const brands: Brand[] = [
-  { label: 'ssasy', image: SsasyLogo, to: '/auth/register' },
-  { label: 'Apple', image: BrandAppleImage, disabled: true },
-  { label: 'Google', image: BrandGoogleImage, disabled: true },
-  { label: 'Twitter', image: BrandTwitterImage, disabled: true }
-]
+const brands = computed<Brand[]>(() => {
+  return [
+    { label: 'ssasy', image: SsasyLogo, to: extensionStore.installed ? '/auth/register' : '/start' },
+    { label: 'Apple', image: BrandAppleImage, disabled: true },
+    { label: 'Google', image: BrandGoogleImage, disabled: true },
+    { label: 'Twitter', image: BrandTwitterImage, disabled: true }
+  ]
+})
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 {
   "name": "@ssasy-auth/demo",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "a client and server demo of the ssasy extension",
   "license": "MIT",
   "repository": "this-oliver/ssasy-demo",

@@ -39,6 +39,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  rounded: {
+    type: String,
+    default: undefined
+  },
   loading: {
     type: Boolean,
     default: false
@@ -82,6 +86,7 @@ const getActions: ComputedRef<ActionItem[]> = computed(() => {
     :subtitle="props.subtitle"
     :flat="props.flat"
     :color="props.color"
+    :rounded="props.rounded"
     :variant="getCardStyle"
     class="pa-1 pa-md-2">
     <slot></slot>

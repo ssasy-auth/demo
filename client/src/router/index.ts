@@ -15,6 +15,11 @@ const router = createRouter({
       component: ThoughtsPage
     },
     {
+      path: '/start',
+      name: 'start',
+      component: () => import('@/pages/StartPage.vue')
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: () => import('@/pages/ProfilePage.vue')

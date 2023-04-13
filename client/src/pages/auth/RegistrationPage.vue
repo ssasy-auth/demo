@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { registerUser } from '@/logic';
 import { useNotification } from '@/composables';
 import BasePage from '@/components/base/BasePage.vue';
+import BaseCard from '@/components/base/BaseCard.vue';
 import BaseBtn from '@/components/base/BaseBtn.vue';
 import InputText from '@/components/base/InputText.vue';
 
@@ -38,9 +39,7 @@ async function register(){
 
 <template>
   <base-page title="Register">
-    <v-sheet
-      color="grey-lighten-3"
-      rounded="lg">
+    <base-card rounded="lg">
       <v-row
         justify="center"
         style="padding-top: 50px;">
@@ -65,6 +64,6 @@ async function register(){
             :disabled="!isValidUsername">Register</base-btn>
         </v-col>
       </v-row>
-    </v-sheet>
+    </base-card>
   </base-page>
 </template>

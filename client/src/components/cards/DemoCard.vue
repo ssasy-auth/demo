@@ -38,12 +38,9 @@ onMounted(async () => {
     <v-card-text v-else>
       <span v-html="getWelcomeMessage"></span>
       <br>
-      <p>In order to use this app, you need to have a firefox browser with the <b>ssasy</b> extension installed.</p>
-      <br>
-      <p>Visit the <a
-        href="https://addons.mozilla.org/en-US/firefox/addon/ssasy/"
-        target="_blank">firefox addons
-        store</a> to download the extension.</p>
+      <p>Visit <a
+        href="https://www.ssasy.net"
+        target="_blank">www.ssasy.net</a> to download the extension on a supported browser.</p>
     </v-card-text>
   </base-card>
 </template>
