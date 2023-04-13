@@ -76,6 +76,10 @@ async function _loginUser(){
 async function _logoutUser(){
   authStore.logout();
 
+  if(router.currentRoute.value.path === '/profile'){
+    router.push('/');
+  }
+
   // close sidebar
   sidebarStore.visible = false;
 }
