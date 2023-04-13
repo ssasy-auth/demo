@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { Bridge } from '@ssasy-auth/extension';
+import { computed } from 'vue';
 import { useDisplay } from 'vuetify/lib/framework.mjs';
 import { useRouter } from 'vue-router';
 import { useAuthStore, useExtensionStore, useSidebarStore } from '@/stores';
@@ -80,13 +79,6 @@ async function _logoutUser(){
   // close sidebar
   sidebarStore.visible = false;
 }
-
-onMounted(async () => {
-  if(!extensionStore.installed){
-    // check if extension is installed
-    extensionStore.installed = await Bridge.isExtensionInstalled();
-  }
-});
 </script>
 
 <template>

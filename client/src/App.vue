@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { RouterView } from 'vue-router'
 import { useDisplay } from 'vuetify/lib/framework.mjs';
-import { useAuthStore } from '@/stores';
+import { Bridge } from '@ssasy-auth/extension';
+import { useAuthStore, useExtensionStore } from '@/stores';
 import AppNav from '@/components/AppNav.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppNotification from '@/components/AppNotification.vue';
@@ -12,12 +13,18 @@ import NavList from '@/components/lists/NavList.vue';
 import DemoCard from '@/components/cards/DemoCard.vue';
 
 const authStore = useAuthStore();
+const extensionStore = useExtensionStore();
 
 const isDesktop = computed(() => {
   const { name } = useDisplay();
   return name.value === 'md' || name.value === 'lg' || name.value === 'xl';
 });
 
+onMounted(async () => {
+  if(!extensionStore.installed){
+    extensionStore.installed = await Bridge.isExtensionInstalled();
+  }
+});
 </script>
 
 <template>

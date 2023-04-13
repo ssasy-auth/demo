@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { Bridge } from '@ssasy-auth/extension';
+import { computed } from 'vue';
 import { useExtensionStore } from '@/stores';
 import BaseCard from '../base/BaseCard.vue';
 
@@ -12,12 +11,6 @@ const getColor = computed<string>(() => {
 
 const getWelcomeMessage = computed<string>(() => {
   return '<p>This the demo website for the <b>ssasy</b> browser extension and library.</p>';
-});
-
-onMounted(async () => {
-  if(extensionStore.installed) return;
-
-  extensionStore.installed = await Bridge.isExtensionInstalled();
 });
 </script>
 
