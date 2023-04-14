@@ -47,7 +47,9 @@ const humanReadableDate = computed<string>(() => {
       </v-col>
     </v-row>
 
-    <span class="mt-2">
+    <span
+      class="mt-2"
+      style="white-space: pre-line;">
       {{ props.thought.text }}
     </span>
   </base-card>
