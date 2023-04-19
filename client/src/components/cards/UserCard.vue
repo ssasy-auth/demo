@@ -41,6 +41,11 @@ const thoughts = computed(() => {
 })
 
 const readablePublicKey = computed(() => {
+  const key = { ...props.user.credential.publicKey };
+
+  delete key.crypto.key_ops;
+  delete (key as any).crypto.ext;
+  
   // return formatted JSON string
   const string = JSON.stringify(props.user.credential.publicKey, null, 2)
 
@@ -93,6 +98,28 @@ onMounted(async () => {
       <pre class="user-public-key"><code>{{ readablePublicKey }}</code></pre>
       <v-list-item-subtitle> public key </v-list-item-subtitle>
     </div>
+  </base-card>
+
+  <base-card
+    v-if="props.showPublicKey"
+    color="warning"
+    :flat="true"
+    :outlined="false"
+    class="mt-2">
+    <v-row no-gutters>
+      <v-col cols="1">
+        <v-icon icon="mdi-information-outline" />
+      </v-col>
+      <v-col>
+        <p>
+          The weird looking card above is the user's <b>public key</b>. It is safe to share it with anyone because it does not contain any sensitive information.
+        </p>
+        <br/>
+        <p>
+          Unlike the public key, the <b>private key</b> should be kept secret from everyone. To tell if a key is private, look for the <b>"d"</b> proprerty in the key. If it is present, then it is the private key.
+        </p>
+      </v-col>
+    </v-row>
   </base-card>
 
   <v-row
