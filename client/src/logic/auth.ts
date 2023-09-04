@@ -1,50 +1,69 @@
 import { Bridge } from '@ssasy-auth/extension';
 import { useAuthStore } from '@/stores';
-import type { RawKey } from '@ssasy-auth/core';
+import { SerializerModule } from '@ssasy-auth/core';
 import type { IUser } from '@/stores';
+import type { RawKey } from '@ssasy-auth/core';
+
+const AuthError = {
+  PUBLIC_KEY_DENIED: 'did not receive a public key',
+  CHALLENGE_RESPONSE_DENIED: 'did not receive a challenge response'
+}
+
+/**
+ * Converts raw PublicKey to URI
+ */
+async function convertRawKeyToUri(rawKey: RawKey): Promise<string> {
+  return await SerializerModule.serializeKey(rawKey);
+}
 
 export async function registerUser(username: string): Promise<IUser>{
   // get public key from extension
-  const publicKey: RawKey | null = await Bridge.requestPublicKey('registration');
+  const publicKey: RawKey | null = await Bridge.requestPublicKey('registration') as RawKey;
         
   if(!publicKey){
-    throw new Error('did not receive a public key :(');
+    throw new Error(AuthError.PUBLIC_KEY_DENIED);
   }
+
+  // convert public key to URI
+  const publicKeyUri: string = await convertRawKeyToUri(publicKey);
         
   // get challenge from server
   const authStore = useAuthStore();
-  const encryptedChallenge = await authStore.getChallenge(publicKey);
+  const encryptedChallenge: string = await authStore.getChallenge(publicKeyUri);
   
   // get solution for challenge from extension
-  const encryptedSolution = await Bridge.requestSolution('registration', encryptedChallenge);
+  const encryptedSolution: string | null = await Bridge.requestSolution('registration', encryptedChallenge);
   
   if(!encryptedSolution){
-    throw new Error('did not receive a solution :(');
+    throw new Error(AuthError.CHALLENGE_RESPONSE_DENIED);
   }
   
   // send solution to server for verification
-  return await authStore.registerUser(publicKey, username as string, encryptedSolution);
+  return await authStore.registerUser(publicKeyUri, username as string, encryptedSolution);
 }
 
 export async function loginUser(): Promise<IUser>{
   // get public key from extension
-  const publicKey: RawKey | null = await Bridge.requestPublicKey('login');
+  const publicKey: RawKey | null = await Bridge.requestPublicKey('login') as RawKey;
       
   if(!publicKey){
-    throw new Error('did not receive a public key :(')
+    throw new Error(AuthError.PUBLIC_KEY_DENIED);
   }
+
+  // convert public key to URI
+  const publicKeyUri: string = await convertRawKeyToUri(publicKey);
       
   // get challenge from server
   const authStore = useAuthStore();
-  const encryptedChallenge = await authStore.getChallenge(publicKey);
+  const encryptedChallenge: string = await authStore.getChallenge(publicKeyUri);
   
   // get solution for challenge from extension
-  const encryptedSolution = await Bridge.requestSolution('login', encryptedChallenge);
+  const encryptedChallengeResponse = await Bridge.requestSolution('login', encryptedChallenge);
   
-  if(!encryptedSolution){
-    throw new Error('did not receive a solution :(')
+  if(!encryptedChallengeResponse){
+    throw new Error(AuthError.CHALLENGE_RESPONSE_DENIED);
   }
   
   // send solution to server for verification
-  return await authStore.loginUser(publicKey, encryptedSolution);
+  return await authStore.loginUser(publicKeyUri, encryptedChallengeResponse);
 }

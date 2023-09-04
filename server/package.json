@@ -8,7 +8,7 @@
     "dev": "nodemon --watch src --exec \"ts-node\" src/index.ts"
   },
   "dependencies": {
-    "@ssasy-auth/core": "1.9.1",
+    "@ssasy-auth/core": "^3.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { storage } from '@/logic';
 import { fetchApi } from '@/util';
 import type { IUser } from './user-store';
-import type { RawKey } from '@ssasy-auth/core'
 
 const KEY_STORAGE_USER = 'ssasy-demo-user';
 const KEY_STORAGE_TOKEN = 'ssasy-demo-token';
@@ -18,8 +17,8 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
-    async getChallenge(publicKey: RawKey): Promise<string> {
-      if(!publicKey){
+    async getChallenge(publicKey: string): Promise<string> {
+      if (!publicKey) {
         throw new Error('Missing public key');
       }
 
@@ -34,7 +33,7 @@ export const useAuthStore = defineStore('auth', {
         })
       });
 
-      if(!response.ok){
+      if (!response.ok) {
         const { message } = await response.json();
         throw new Error(message);
       }
@@ -43,12 +42,12 @@ export const useAuthStore = defineStore('auth', {
 
       return ciphertext;
     },
-    async registerUser(publicKey: RawKey, username: string, encryptedSolution: string): Promise<IUser> {
-      if(!publicKey){
+    async registerUser(publicKey: string, username: string, encryptedChallengeResponse: string): Promise<IUser> {
+      if (!publicKey) {
         throw new Error('Missing public key');
       }
 
-      if(!encryptedSolution){
+      if (!encryptedChallengeResponse) {
         throw new Error('Missing solution');
       }
 
@@ -60,23 +59,23 @@ export const useAuthStore = defineStore('auth', {
         body: JSON.stringify({
           publicKey: publicKey,
           username: username,
-          challenge: encryptedSolution
+          challengeResponse: encryptedChallengeResponse
         })
       });
 
-      if(!response.ok){
+      if (!response.ok) {
         const { message } = await response.json();
         throw new Error(message);
       }
 
       return await response.json();
     },
-    async loginUser(publicKey: RawKey, encryptedSolution: string): Promise<IUser>{
-      if(!publicKey){
+    async loginUser(publicKey: string, encryptedChallengeResponse: string): Promise<IUser> {
+      if (!publicKey) {
         throw new Error('Missing public key');
       }
 
-      if(!encryptedSolution){
+      if (!encryptedChallengeResponse) {
         throw new Error('Missing solution');
       }
 
@@ -87,11 +86,11 @@ export const useAuthStore = defineStore('auth', {
         },
         body: JSON.stringify({
           publicKey: publicKey,
-          challenge: encryptedSolution
+          challengeResponse: encryptedChallengeResponse
         })
       });
 
-      if(!response.ok){
+      if (!response.ok) {
         const { message } = await response.json();
         throw new Error(message);
       }
@@ -108,7 +107,7 @@ export const useAuthStore = defineStore('auth', {
 
       return user;
     },
-    logout(){
+    logout() {
       // reset token
       this.token = undefined;
       storage.removeItem(KEY_STORAGE_TOKEN);
@@ -116,7 +115,7 @@ export const useAuthStore = defineStore('auth', {
       // reset user
       this.user = undefined;
       storage.removeItem(KEY_STORAGE_USER);
-      
+
       this.$reset();
     }
   }
