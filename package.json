@@ -1,6 +1,6 @@
 {
   "name": "@ssasy-auth/demo",
-  "version": "0.12.9",
+  "version": "0.12.10",
   "description": "a client and server demo of the ssasy extension",
   "license": "MIT",
   "repository": "this-oliver/ssasy-demo",
@@ -9,6 +9,6 @@
     "bump": "npx fist-bump"
   },
   "devDependencies": {
-    "fist-bump": "^1.2.4"
+    "fist-bump": "^2.0.0"
   }
 }
