@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
 import { fetchApi } from '@/util';
-import type { RawKey, StandardCiphertext } from '@ssasy-auth/core'
 
 export interface IUser {
   _id?: string;
   username: string;
-  credential: { publicKey: RawKey, signature: StandardCiphertext };
+  credential: { publicKey: string, signature: string };
 }
 
 export const useUserStore = defineStore('user', {

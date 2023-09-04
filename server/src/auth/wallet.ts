@@ -1,4 +1,4 @@
-import { Wallet, KeyModule } from "@ssasy-auth/core";
+import { Wallet, KeyModule, SerializerModule } from "@ssasy-auth/core";
 import type { PrivateKey, RawKey } from "@ssasy-auth/core";
 
 /**
@@ -12,7 +12,7 @@ import type { PrivateKey, RawKey } from "@ssasy-auth/core";
  * To generate a private key, see -> https://github.com/ssasy-auth/core#generate-cryptographic-keys
  */
 const SERVER_PRIVATE_KEY = {
-	type: "private-key" as any,
+	type: "private-key",
 	crypto: {
 		crv: "P-256",
 		d: "Lx_mMx_xH0CLwaTBzLsd-mkJFTw1KxyYF7EekCT_Ha0", // <-- This is the private key
@@ -25,6 +25,8 @@ const SERVER_PRIVATE_KEY = {
 } as RawKey;
 
 export async function getServerWallet(): Promise<Wallet> {
-  const privateKey = await KeyModule.importKey(SERVER_PRIVATE_KEY) as PrivateKey;
-  return new Wallet(privateKey);
+  const privateKey: PrivateKey = await KeyModule.importKey(SERVER_PRIVATE_KEY) as PrivateKey;
+  const privateKeyUri: string = await SerializerModule.serializeKey(privateKey);
+
+  return new Wallet(privateKeyUri);
 }

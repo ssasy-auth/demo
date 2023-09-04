@@ -1,17 +1,16 @@
 import mongoose from "mongoose";
 import type { Document } from "mongoose";
-import type { RawKey, StandardCiphertext } from "@ssasy-auth/core";
 
 interface ICredential {
   /**
 	 * user's public key
 	 */
-	publicKey: RawKey;
+	publicKey: string;
 
   /**
    * user's signature. (usage recommended to protect user against phishing attacks)
    */
-  signature: StandardCiphertext;
+  signature: string;
 }
 
 interface IUser {
@@ -29,11 +28,12 @@ type UserDocument = IUser & Document;
 
 const UserSchema = new mongoose.Schema<IUser>(
   {
-    credential: {
-      publicKey: { type: Object, required: true, unique: true },
-      signature: { type: Object, required: true }
-    },
     username: { type: String, required: true, unique: true },
+    credential: {
+      // accept properties with incorrect types (temporary)
+      publicKey: { type: mongoose.Schema.Types.Mixed, required: true, unique: true },
+      signature: { type: mongoose.Schema.Types.Mixed, required: true, unique: true }
+    }
   },
   { timestamps: true }
 );
@@ -53,12 +53,12 @@ function handleUserError(error: Error): Error {
     error.message.includes("E11000") // duplicate key error
   ) {
 
-    if (error.message.includes("username")) {
-      return new Error("username taken");
-    }
-
     if(error.message.includes("publicKey")) {
       return new Error("public key has already been registered");
+    }
+
+    if (error.message.includes("username")) {
+      return new Error("username taken");
     }
   }
 
@@ -66,10 +66,13 @@ function handleUserError(error: Error): Error {
   return error;
 }
 
-async function createUser(publicKey: RawKey, signature: StandardCiphertext, username: string): Promise<UserDocument | null> {
+async function createUser(publicKey: string, signature: string, username: string): Promise<UserDocument | null> {
   try {
     const user = new UserModel({ 
-      credential: { publicKey, signature },
+      credential: {
+        publicKey,
+        signature
+      },
       username
     });
     return await user.save();
@@ -83,15 +86,16 @@ async function getUserById(id: string): Promise<UserDocument | null> {
   return UserModel.findById(id).exec();
 }
 
-async function getUserByPublicKey(xValue: string, yValue: string): Promise<UserDocument | null> {
-  return await UserModel.findOne({
-    "credential.publicKey.crypto.x": xValue,
-    "credential.publicKey.crypto.y": yValue
-  }).exec();
+async function getUserByPublicKey(key: string): Promise<UserDocument | null> {
+  return await UserModel.findOne({ "credential.publicKey": key }).exec();
 }
 
 async function indexUsers(): Promise<UserDocument[]> {
   return await UserModel.find().exec();
+}
+
+async function updateUser(user: UserDocument): Promise<UserDocument | null> {
+  return await user.save();
 }
 
 export {
@@ -101,5 +105,6 @@ export {
   createUser,
   getUserById,
   getUserByPublicKey,
-  indexUsers
+  indexUsers,
+  updateUser
 };
