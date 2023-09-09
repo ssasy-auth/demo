@@ -13,7 +13,7 @@
   "dependencies": {
     "@mdi/font": "^7.2.96",
     "@ssasy-auth/core": "^3.0.0",
-    "@ssasy-auth/extension": "0.20.6",
+    "@ssasy-auth/extension": "^1.0.0",
     "dayjs": "^1.11.7",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
