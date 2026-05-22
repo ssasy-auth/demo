@@ -4,7 +4,7 @@ import { fetchApi } from '@/util';
 export interface IUser {
   _id?: string;
   username: string;
-  credential: { publicKey: string, signature: string };
+  credential: string;
 }
 
 export const useUserStore = defineStore('user', {

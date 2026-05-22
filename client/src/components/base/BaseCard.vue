@@ -15,7 +15,7 @@ export interface ActionItem {
   outlined?: boolean;
   hint?: string;
   to?: string;
-  action?: () => void;
+  action?: (arg?: any) => void;
 }
 
 const props = defineProps({

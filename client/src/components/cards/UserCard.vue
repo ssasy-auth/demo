@@ -4,6 +4,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useThoughtStore } from '@/stores'
 import BaseCard from '@/components/base/BaseCard.vue'
 import ThoughtCard from '@/components/cards/ThoughtCard.vue'
+import { SerializerModule } from '@ssasy-auth/core'
 import type { PropType } from 'vue'
 import type { IUser, IThought } from '@/stores'
 
@@ -30,9 +31,11 @@ const props = defineProps({
   }
 })
 
-const _thoughts = ref<IThought[]>([])
-const thoughts = computed(() => {
-  return _thoughts.value.map(thought => {
+const publicKeyUri = ref<string>();
+const thoughts = ref<IThought[]>([])
+
+const getThoughts = computed(() => {
+  return thoughts.value.map(thought => {
     return {
       ...thought,
       author: props.user
@@ -40,8 +43,10 @@ const thoughts = computed(() => {
   })
 })
 
-const readablePublicKey = computed<string>(() => {
-  let publicKey: string = props.user.credential.publicKey;
+const getReadablePublicKey = computed<string>(() => {
+  if(!publicKeyUri.value) return ''
+
+  let publicKey: string = publicKeyUri.value;
 
   // get rid of the first part of the key (the part before the "?")
   publicKey = publicKey.slice(publicKey.indexOf('?') + 1)
@@ -72,8 +77,12 @@ onMounted(async () => {
   if (props.showThoughts) {
     // fetch thoughts
     const thoughtStore = useThoughtStore()
-    _thoughts.value = await thoughtStore.fetchThoughtsByAuthor(props.user._id as string)
+    thoughts.value = await thoughtStore.fetchThoughtsByAuthor(props.user._id as string)
   }
+
+  // deserialize credential
+  const credential = await SerializerModule.deserializeCredential(props.user.credential)
+  publicKeyUri.value = await SerializerModule.serializeKey(credential.publicKey)
 })
 </script>
 
@@ -106,7 +115,7 @@ onMounted(async () => {
     <div
       v-if="props.showPublicKey"
       class="mt-2">
-      <pre class="user-public-key"><code>{{ readablePublicKey }}</code></pre>
+      <pre class="user-public-key"><code>{{ getReadablePublicKey }}</code></pre>
       <v-list-item-subtitle> public key </v-list-item-subtitle>
     </div>
   </base-card>
@@ -131,7 +140,7 @@ onMounted(async () => {
   </base-card>
 
   <v-row
-    v-if="thoughts.length > 0"
+    v-if="getThoughts.length > 0"
     justify="center"
     class="mt-2">
     <v-col cols="auto">
@@ -141,7 +150,7 @@ onMounted(async () => {
     <v-divider class="border-opacity-0"/>
 
     <v-col
-      v-for="thought in thoughts"
+      v-for="thought in getThoughts"
       :key="thought._id"
       cols="12">
       <thought-card

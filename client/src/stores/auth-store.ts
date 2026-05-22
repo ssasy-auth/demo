@@ -17,9 +17,9 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
-    async getChallenge(publicKey: string): Promise<string> {
-      if (!publicKey) {
-        throw new Error('Missing public key');
+    async getChallenge(req: {username?: string, publicKey?: string}): Promise<string> {
+      if (!req.publicKey && !req.username) {
+        throw new Error('Missing public key or username');
       }
 
       // request challenge from server
@@ -29,7 +29,8 @@ export const useAuthStore = defineStore('auth', {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          publicKey: publicKey
+          publicKey: req.publicKey,
+          username: req.username
         })
       });
 
@@ -42,9 +43,9 @@ export const useAuthStore = defineStore('auth', {
 
       return ciphertext;
     },
-    async registerUser(publicKey: string, username: string, encryptedChallengeResponse: string): Promise<IUser> {
-      if (!publicKey) {
-        throw new Error('Missing public key');
+    async registerUser(username: string, encryptedChallengeResponse: string): Promise<IUser> {
+      if (!username) {
+        throw new Error('Missing username');
       }
 
       if (!encryptedChallengeResponse) {
@@ -57,7 +58,6 @@ export const useAuthStore = defineStore('auth', {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          publicKey: publicKey,
           username: username,
           challengeResponse: encryptedChallengeResponse
         })
@@ -70,9 +70,9 @@ export const useAuthStore = defineStore('auth', {
 
       return await response.json();
     },
-    async loginUser(publicKey: string, encryptedChallengeResponse: string): Promise<IUser> {
-      if (!publicKey) {
-        throw new Error('Missing public key');
+    async loginUser(username: string, encryptedChallengeResponse: string): Promise<IUser> {
+      if (!username) {
+        throw new Error('Missing username');
       }
 
       if (!encryptedChallengeResponse) {
@@ -85,7 +85,7 @@ export const useAuthStore = defineStore('auth', {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          publicKey: publicKey,
+          username: username,
           challengeResponse: encryptedChallengeResponse
         })
       });

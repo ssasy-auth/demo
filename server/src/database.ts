@@ -1,12 +1,18 @@
 import { Enviroment } from "./config";
 import mongoose from "mongoose";
-import { migrateCredentials } from "./util/migrate";
+import { migrateCredentials, migrateCredentialsToUri } from "./util/migrate";
 
 async function connect () {
   const connection = await mongoose.connect(Enviroment.DATABASE);
 
   // run migrations
+  console.log('Running migrations...');
+  
+  console.log(migrateCredentials.name)
   await migrateCredentials.migrate(connection);
+
+  console.log(migrateCredentialsToUri.name)
+  await migrateCredentialsToUri.migrate(connection);
 }
 
 export default { connect };

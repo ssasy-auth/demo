@@ -17,7 +17,7 @@ export async function registerUser(username: string): Promise<IUser> {
 
   // get challenge from server
   const authStore = useAuthStore();
-  const encryptedChallenge: string = await authStore.getChallenge(publicKey);
+  const encryptedChallenge: string = await authStore.getChallenge({ publicKey });
 
   // get solution for challenge from extension
   const encryptedSolution: string | null = await Bridge.requestChallengeResponse('registration', encryptedChallenge);
@@ -27,20 +27,13 @@ export async function registerUser(username: string): Promise<IUser> {
   }
 
   // send solution to server for verification
-  return await authStore.registerUser(publicKey, username as string, encryptedSolution);
+  return await authStore.registerUser(username, encryptedSolution);
 }
 
-export async function loginUser(): Promise<IUser> {
-  // get public key from extension
-  const publicKey: string | null = await Bridge.requestPublicKey('login');
-
-  if (!publicKey) {
-    throw new Error(AuthError.PUBLIC_KEY_DENIED);
-  }
-
+export async function loginUser(username: string): Promise<IUser> {
   // get challenge from server
   const authStore = useAuthStore();
-  const encryptedChallenge: string = await authStore.getChallenge(publicKey);
+  const encryptedChallenge: string = await authStore.getChallenge({ username });
 
   // get solution for challenge from extension
   const encryptedChallengeResponse = await Bridge.requestChallengeResponse('login', encryptedChallenge);
@@ -51,5 +44,5 @@ export async function loginUser(): Promise<IUser> {
   }
 
   // send solution to server for verification
-  return await authStore.loginUser(publicKey, encryptedChallengeResponse);
+  return await authStore.loginUser(username, encryptedChallengeResponse);
 }
