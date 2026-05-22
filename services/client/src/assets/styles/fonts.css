@@ -1,0 +1,26 @@
+:root {
+  --font-family: monospace, sans-serif;
+  --color-neon: #329427;
+}
+
+html {
+  font-family: var(--font-family);
+}
+
+a {
+  font-weight: bold;
+  color: var(--color-neon);
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+
+.underline {
+  border-bottom: 1px solid;
+}
+
+.hide-link {
+  font-weight: inherit;
+  color: inherit !important;
+  border-bottom: inherit !important;
+  text-decoration: inherit !important;
+}
