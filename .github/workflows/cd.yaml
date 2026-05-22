@@ -1,0 +1,77 @@
+name: Continuous Deployment
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  release:
+    outputs:
+      tag: ${{ steps.release.outputs.tag_name }}
+      released: ${{ steps.release.outputs.releases_created}}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Create release
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          release-type: node
+
+  build:
+    if: needs.release.outputs.released == 'true'
+    needs: release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ["client", "server"]
+    env:
+      IMAGE_NAME: "${{ github.repository }}-${{ matrix.service }}"
+    permissions:
+      contents: read # needs write permission to push tag and release
+      packages: write # needs write permission to publish Docker image
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+
+      - name: Login to registry
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Build and push
+        if: needs.release.outputs.released != 'true'
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          platforms: linux/amd64,linux/arm64
+
+      - name: Build and push (release)
+        if: needs.release.outputs.released == 'true'
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.tag }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          platforms: linux/amd64,linux/arm64

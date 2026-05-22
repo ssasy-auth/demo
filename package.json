@@ -3,12 +3,5 @@
   "version": "0.14.0",
   "description": "a client and server demo of the ssasy extension",
   "license": "MIT",
-  "repository": "this-oliver/ssasy-demo",
-  "main": "index.js",
-  "scripts": {
-    "bump": "npx fist-bump"
-  },
-  "devDependencies": {
-    "fist-bump": "^2.0.0"
-  }
+  "repository": "this-oliver/ssasy-demo"
 }
