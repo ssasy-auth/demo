@@ -1,0 +1,16 @@
+# security
+keys/
+
+# local env files
+.env*
+!.env.sample
+
+# build
+dist/
+
+# editor files
+.vscode
+.DS_Store
+
+# auto-generated files
+**/node_modules
